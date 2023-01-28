@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import { useAutoAnimate } from "@formkit/auto-animate/react";
-type Props = {};
 
-const routesConfig = {
+export const routesConfig = {
   home: "/home",
   decks: "/decks",
   leader: "/leader",
@@ -91,18 +89,22 @@ const navBarConfig = [
     ),
   },
 ];
-const NavBottomBar = (props: Props) => {
+
+const NavBottomBar = ({
+  setActivePage,
+  activePage,
+}: {
+  setActivePage: (route: string) => void;
+  activePage: string;
+}) => {
   const [active, setActive] = useState();
-  const [activePage, setActivePage] = useState(routesConfig.home);
 
   return (
     <div className="btm-nav">
       {navBarConfig.map((el) => (
         <button
           key={el.title}
-          className={`text-primary ${
-            activePage === el.route ? "active delay-200 ease-out" : ""
-          }`}
+          className={`text-primary ${activePage === el.route ? "active" : ""}`}
           onClick={() => setActivePage(el.route)}
         >
           {el.title}

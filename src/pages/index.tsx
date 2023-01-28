@@ -4,12 +4,21 @@ import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 import { api } from "../utils/api";
-import NavBar from "../components/NavBar";
-import NavBottomBar from "../components/NavBottomBar";
+import NavBottomBar, { routesConfig } from "../components/NavBottomBar";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const Home: NextPage = () => {
+  const router = useRouter();
   const hello = api.example.hello.useQuery({ text: "from tRPC" });
-  const isDesktop = false;
+
+  const [activePage, setActivePage] = useState(routesConfig.home);
+
+  const changePage = (route: string) => {
+    setActivePage(route);
+    router.push(route);
+  };
+
   return (
     <>
       <Head>
@@ -18,7 +27,8 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main data-theme="dracula">
-        <NavBottomBar />
+        <Link href={activePage} />
+        <NavBottomBar activePage={activePage} setActivePage={changePage} />
       </main>
     </>
   );
