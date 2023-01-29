@@ -1,26 +1,4 @@
-import { type NextPage } from "next";
-import Head from "next/head";
-import Link from "next/link";
-import { signIn, signOut, useSession } from "next-auth/react";
-
-import { api } from "../utils/api";
-import NavBottomBar, { routesConfig } from "../components/NavBottomBar";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-
-const Home: NextPage = () => {
-  const hello = api.example.hello.useQuery({ text: "from tRPC" });
-
-  return (
-    <>
-      <main></main>
-    </>
-  );
-};
-
-export default Home;
-
-const AuthShowcase: React.FC = () => {
+const Auth: React.FC = () => {
   const { data: sessionData } = useSession();
 
   const { data: secretMessage } = api.example.getSecretMessage.useQuery(
@@ -43,3 +21,5 @@ const AuthShowcase: React.FC = () => {
     </div>
   );
 };
+
+export default Auth;
