@@ -7,7 +7,7 @@ export const routesConfig = {
   settings: "/settings",
 };
 
-const navBarConfig = [
+export const navBarConfig = [
   {
     title: "Home",
     route: routesConfig.home,
@@ -98,6 +98,7 @@ const NavBottomBar = ({
   activePage: string;
 }) => {
   const [active, setActive] = useState();
+  const [isMobile, setMobile] = useState();
 
   return (
     <div className="btm-nav">

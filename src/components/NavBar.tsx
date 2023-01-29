@@ -1,15 +1,26 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { navBarConfig } from "./NavBottomBar";
+import Link from "next/link";
+import useWindowSize from "../hooks/useWindowSize";
 
-type Props = {};
+type Props = {
+  route: string;
+};
 
 const conf = {
   title: "Blazingly fast vocabulary builder",
   shortTitle: "BFVB",
 };
 
-const NavBar = (props: Props) => {
+const NavBar = ({ route }: Props) => {
+  const size = useWindowSize();
+  const [title, setTitle] = useState(conf.title);
+  const getRouterForTitle = () => {
+    return route === "/home" ? conf.title : route.split("/")[1]?.toUpperCase();
+  };
+
   return (
-    <div className="navbar bg-base-100">
+    <div className="navbar glass rounded-lg">
       <div className="navbar-start">
         <div className="dropdown">
           <label tabIndex={0} className="btn-ghost btn lg:hidden">
@@ -28,76 +39,24 @@ const NavBar = (props: Props) => {
               />
             </svg>
           </label>
-          <ul
-            tabIndex={0}
-            className="dropdown-content menu rounded-box menu-compact mt-3 w-52 bg-base-100 p-2 shadow"
-          >
-            <li>
-              <a>Item 1</a>
-            </li>
-            <li tabIndex={0}>
-              <a className="justify-between">
-                Parent
-                <svg
-                  className="fill-current"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
-                </svg>
-              </a>
-              <ul className="p-2">
-                <li>
-                  <a>Submenu 1</a>
-                </li>
-                <li>
-                  <a>Submenu 2</a>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <a>Item 3</a>
-            </li>
-          </ul>
         </div>
-        <a className="btn-ghost btn text-xl normal-case">{conf.title}</a>
+        <a className="btn-ghost btn text-xl normal-case">
+          {getRouterForTitle()}
+        </a>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
           <li>
-            <a>Item 1</a>
-          </li>
-          <li tabIndex={0}>
-            <a>
-              Parent
-              <svg
-                className="fill-current"
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-              >
-                <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
-              </svg>
-            </a>
-            <ul className="p-2">
-              <li>
-                <a>Submenu 1</a>
-              </li>
-              <li>
-                <a>Submenu 2</a>
-              </li>
-            </ul>
-          </li>
-          <li>
-            <a>Item 3</a>
+            {navBarConfig.map((el) => (
+              <Link key={el.title} href={el.route}>
+                {el.title}
+              </Link>
+            ))}
           </li>
         </ul>
       </div>
       <div className="navbar-end">
-        <a className="btn">Get started</a>
+        <button className="btn-primary btn">Sign In</button>
       </div>
     </div>
   );
