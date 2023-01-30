@@ -3,6 +3,7 @@ export const NAVIGATION_ROUTES = {
   lib: "/library",
   rating: "/rating",
   settings: "/settings",
+  deckSession: "/session",
 };
 
 export const NAVIGATION_CONFIGURATION = [

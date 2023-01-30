@@ -1,5 +1,5 @@
 import { Deck } from "../types/Library";
-import Carousel from "../components/Carousel";
+import Carousel from "../components/Library/Carousel";
 
 const deckCollection: {
   [key: string]: Deck;

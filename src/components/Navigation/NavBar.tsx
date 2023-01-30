@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 
 import Link from "next/link";
-import useWindowSize from "../hooks/useWindowSize";
-import { NAVIGATION_CONFIGURATION } from "../constants/navigation";
+import useWindowSize from "../../hooks/useWindowSize";
+import { NAVIGATION_CONFIGURATION } from "../../constants/navigation";
 
 type Props = {
   route: string;

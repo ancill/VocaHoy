@@ -1,5 +1,5 @@
-import { Deck, DeckCollection } from "../types/Library";
-import Card from "./Card";
+import { Deck, DeckCollection } from "../../types/Library";
+import DeckCollectionCard from "./DeckCollectionCard";
 
 const Carousel = ({ deck }: { deck: Deck }) => {
   return (
@@ -10,7 +10,7 @@ const Carousel = ({ deck }: { deck: Deck }) => {
       <div className="carousel rounded-box space-x-4">
         {deck.collection.map((el: DeckCollection) => (
           <div className="carousel-item" key={el.id}>
-            <Card {...el} />
+            <DeckCollectionCard {...el} />
           </div>
         ))}
       </div>

@@ -7,25 +7,25 @@ import { api } from "../utils/api";
 import "../styles/globals.css";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import NavBottomBar from "../components/NavBottomBar";
+import NavBottomBar from "../components/Navigation/NavBottomBar";
 import Head from "next/head";
-import NavBar from "../components/NavBar";
+import NavBar from "../components/Navigation/NavBar";
 import { NAVIGATION_ROUTES } from "../constants/navigation";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
 }) => {
-  const [activePage, setActivePage] = useState(NAVIGATION_ROUTES.decks);
+  const [activePage, setActivePage] = useState(NAVIGATION_ROUTES.lib);
   const router = useRouter();
   const changePage = (route: string) => {
     setActivePage(route);
-    router.push(route === NAVIGATION_ROUTES.home ? "/" : route);
+    router.push(route === NAVIGATION_ROUTES.stats ? "/" : route);
   };
   return (
     <div
       data-theme="dracula"
-      className="grid place-items-center items-end bg-gradient-to-br from-primary to-secondary text-primary-content"
+      className="grid place-items-center items-end bg-gradient-to-b from-secondary to-primary-content text-primary-content"
     >
       <SessionProvider session={session}>
         <Head>

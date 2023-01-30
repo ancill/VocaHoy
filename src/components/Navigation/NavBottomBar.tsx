@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import useWindowSize from "../hooks/useWindowSize";
-import { NAVIGATION_CONFIGURATION } from "../constants/navigation";
+import useWindowSize from "../../hooks/useWindowSize";
+import { NAVIGATION_CONFIGURATION } from "../../constants/navigation";
 
 const NavBottomBar = ({
   setActivePage,
