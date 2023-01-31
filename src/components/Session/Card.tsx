@@ -1,10 +1,10 @@
 import ControlButtons from "./ControlButtons";
 
-const CardBody = ({ items }) => {
-  return items.map((el) => (
+const CardBody = ({ front, back, audioUrl, imgUrl, id }) => {
+  return (
     <div className="card w-96 bg-primary shadow-xl">
       <figure>
-        <img src={image} alt="Shoes" />
+        <img src={imgUrl} alt="Shoes" />
       </figure>
       <div className="card-body">
         <h2 className="card-title">
@@ -18,16 +18,47 @@ const CardBody = ({ items }) => {
         </div>
       </div>
     </div>
-  ));
+  );
 };
+
+const sessionCards = [
+  {
+    front: "Hacer",
+    back: "Do",
+    audioUrl: "",
+    imgUrl:
+      "https://daisyui.com/images/stock/photo-1559703248-dcaaec9fab78.jpg",
+    id: "1",
+  },
+  {
+    front: "Hacer",
+    back: "Do",
+    audioUrl: "",
+    imgUrl:
+      "https://daisyui.com/images/stock/photo-1559703248-dcaaec9fab78.jpg",
+    id: "2",
+  },
+  {
+    front: "Hacer",
+    back: "Do",
+    audioUrl: "",
+    imgUrl:
+      "https://daisyui.com/images/stock/photo-1559703248-dcaaec9fab78.jpg",
+    id: "3",
+  },
+];
 
 const Card = ({}) => {
   const image =
     "https://daisyui.com/images/stock/photo-1559703248-dcaaec9fab78.jpg";
 
   return (
-    <div className="mt-5 flex flex-col space-y-5 px-24">
-      <div className="stack">ca</div>
+    <div className="mt-5 flex flex-col items-center space-y-24 px-24">
+      <div className="stack">
+        {sessionCards.map((el) => (
+          <CardBody {...el} />
+        ))}
+      </div>
       <ControlButtons />
     </div>
   );

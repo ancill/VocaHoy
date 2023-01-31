@@ -2,15 +2,16 @@ import { useState } from "react";
 
 const ControlButtons = () => {
   const [flipButton, setFlipButton] = useState<"Show" | "Repeat">("Show");
+  const isShowFlipState = flipButton === "Show";
 
   return (
     <div className="btn-group">
       <button
-        className="btn btn-active"
+        className={`${
+          isShowFlipState ? "btn" : "btn-active"
+        } btn-wide rounded-lg`}
         onClick={() =>
-          flipButton === "Show"
-            ? setFlipButton("Repeat")
-            : setFlipButton("Show")
+          isShowFlipState ? setFlipButton("Repeat") : setFlipButton("Show")
         }
       >
         {flipButton}
