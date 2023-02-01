@@ -27,6 +27,7 @@ specifiers:
   prettier-plugin-tailwindcss: ^0.2.1
   prisma: ^4.8.0
   react: 18.2.0
+  react-card-flip: ^1.2.0
   react-dom: 18.2.0
   superjson: 1.9.1
   tailwindcss: ^3.2.0
@@ -46,6 +47,7 @@ dependencies:
   next: 13.1.2_biqbaboplfbrettd7655fr4n2y
   next-auth: 4.18.10_7jnwqgtpcnwg4nzft4b6xlzlfi
   react: 18.2.0
+  react-card-flip: 1.2.0_biqbaboplfbrettd7655fr4n2y
   react-dom: 18.2.0_react@18.2.0
   superjson: 1.9.1
   zod: 3.20.2
@@ -2432,6 +2434,16 @@ packages:
   /quick-lru/5.1.1:
     resolution: {integrity: sha512-WuyALRjWPDGtt/wzJiadO5AXY+8hZ80hVpe6MyivgraREW751X3SbhRvG3eLKOYN+8VEvqLcf3wdnt44Z4S4SA==}
     engines: {node: '>=10'}
+
+  /react-card-flip/1.2.0_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-5/tbaSBoTTdxV2glail7fr7W7CqNG/4BOm17pNmI1b6TwtRRUrElPdAO4h235MGU2dDwqyWBzO+H8y2Ax6BTpA==}
+    peerDependencies:
+      react: ^18.2.0
+      react-dom: ^18.2.0
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
 
   /react-dom/18.2.0_react@18.2.0:
     resolution: {integrity: sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==}
