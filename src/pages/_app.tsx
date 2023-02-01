@@ -25,7 +25,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
   return (
     <div
       data-theme="dracula"
-      className="grid place-items-center items-end bg-gradient-to-b from-secondary to-primary-content text-primary-content"
+      className="grid place-items-center items-end bg-gradient-to-b from-base-300 to-base-100 "
     >
       <SessionProvider session={session}>
         <Head>

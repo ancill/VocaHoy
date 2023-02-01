@@ -2,16 +2,16 @@ const ProgressBar = () => {
   const label = "Deck name";
   const progress = "25 words";
   return (
-    <div className="navbar glass rounded-lg px-6">
+    <div className="navbar rounded-lg bg-base-100 px-6">
       <div className="navbar-start flex">
-        <button className="btn-outline btn btn-square mr-4 border-primary-content ">
+        <button className="btn-outline btn-square btn mr-4 ">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="h-6 w-6 text-primary-content"
+            className="h-6 w-6 "
           >
             <path
               strokeLinecap="round"
