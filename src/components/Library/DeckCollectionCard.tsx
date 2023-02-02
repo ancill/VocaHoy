@@ -14,7 +14,7 @@ const DeckCollectionCard = ({
     <div className="card card-compact w-64 bg-base-100 text-white shadow-xl">
       <figure>
         <img
-          src={image}
+          src={image}1
           alt="car!"
           className="bg-gradient-to-r from-primary to-accent"
         />
