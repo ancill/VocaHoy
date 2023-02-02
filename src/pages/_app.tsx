@@ -33,7 +33,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
           <meta name="description" content="Fast vocabulary builder" />
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        <div className="container mx-auto min-h-screen py-4">
+        <div className="container mx-auto py-4">
           <NavBar route={activePage} />
           <Component {...pageProps} />
           <NavBottomBar activePage={activePage} setActivePage={changePage} />

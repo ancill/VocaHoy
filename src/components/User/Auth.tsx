@@ -21,7 +21,7 @@ const Auth: React.FC = () => {
     <div className="dropdown-end dropdown">
       <label tabIndex={0} className="btn-ghost btn-circle avatar btn">
         <div className="w-10 rounded-full">
-          <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+          <img src={sessionData.user?.image} />
         </div>
       </label>
       <ul

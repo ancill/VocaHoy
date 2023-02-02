@@ -18,7 +18,7 @@ const NavBottomBar = ({
   }
 
   return (
-    <div className="btm-nav glass mx-4 rounded-lg">
+    <div className="btm-nav glass rounded-lg">
       {NAVIGATION_CONFIGURATION.map((el) => (
         <button
           key={el.title}

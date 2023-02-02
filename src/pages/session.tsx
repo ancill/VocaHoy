@@ -4,7 +4,7 @@ import ProgressBar from "../components/Session/ProgressBar";
 
 const SessionPage = ({}) => {
   return (
-    <div className="container glass mx-auto mt-4 flex min-h-screen flex-col rounded-lg">
+    <div className="container glass mx-auto mt-4 flex flex-col rounded-lg pb-24">
       <ProgressBar />
       <Card />
     </div>

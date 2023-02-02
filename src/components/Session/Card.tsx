@@ -128,13 +128,16 @@ const FrontCardButtons = ({
   </div>
 );
 type BackButtonActon = "done" | "repeat";
+
 const CardContent = ({
+  isFront,
   front,
   back,
   img,
   onCardClick,
   onActionClick,
 }: {
+  isFront: boolean;
   front?: string;
   back?: string;
   img: string;
@@ -150,19 +153,28 @@ const CardContent = ({
       className="card w-96 bg-base-200 text-center shadow-xl"
       onClick={onCardClick}
     >
-      <figure className="px-10 pt-10">
-        <img src={img} alt="Shoes" className="rounded-xl" />
+      <figure className="relative px-10 pt-10">
+        <img
+          src={img}
+          alt={front}
+          className={`${isFront ? "blur-2xl" : ""} rounded-xl`}
+        />
+        {!isFront && (
+          <h2 className="absolute bottom-4 text-5xl font-bold text-base-200 backdrop-blur-sm">
+            {front}
+          </h2>
+        )}
       </figure>
       <div className="card-body items-center text-center">
         <h2
           className={`${
-            front ? "text-primary" : "text-base"
+            isFront ? "text-primary" : "text-base"
           }  card-title mb-4 text-5xl`}
         >
-          {front || back}
+          {isFront ? front : back}
         </h2>
-        {front && <FrontCardButtons onClick={onCardClick} />}
-        {back && <BackCardButtons onClick={handleClickActions} />}
+        {isFront && <FrontCardButtons onClick={onCardClick} />}
+        {!isFront && <BackCardButtons onClick={handleClickActions} />}
       </div>
     </div>
   );
@@ -180,21 +192,22 @@ const CardFlipContent = ({
   handleActions: (action: BackButtonActon) => void;
 }) => {
   const [isFlipped, setFlip] = useState(false);
+
+  const Card = ({ isFront }: { isFront: boolean }) => (
+    <CardContent
+      isFront={isFront}
+      back={back}
+      front={front}
+      img={imgUrl}
+      onCardClick={() => setFlip(!isFlipped)}
+      onActionClick={handleActions}
+    />
+  );
   return (
     <div>
       <ReactCardFlip isFlipped={isFlipped} flipDirection="horizontal">
-        <CardContent
-          front={front}
-          img={imgUrl}
-          onCardClick={() => setFlip(!isFlipped)}
-          onActionClick={handleActions}
-        />
-        <CardContent
-          back={back}
-          img={imgUrl}
-          onCardClick={() => setFlip(!isFlipped)}
-          onActionClick={handleActions}
-        />
+        <Card isFront={true} />
+        <Card isFront={false} />
       </ReactCardFlip>
     </div>
   );
