@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import useWindowSize from "../../hooks/useWindowSize";
 import { NAVIGATION_CONFIGURATION } from "../../constants/navigation";
+import Auth from "../User/Auth";
 
 type Props = {
   route: string;
@@ -44,7 +45,7 @@ const NavBar = ({ route }: Props) => {
         </ul>
       </div>
       <div className="navbar-end">
-        <button className="btn-primary btn">Sign In</button>
+        <Auth />
       </div>
     </div>
   );
