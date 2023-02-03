@@ -19,7 +19,7 @@ export const deckRouter = createTRPCRouter({
     return "you can now see this secret message!";
   }),
 
-  //   createDeck: protectedProcedure.mutation(({ ctx }) => {
-  //     return ctx.prisma.deckCollection
-  //   }),
+  getDeckCollection: protectedProcedure.query(({ ctx }) => {
+    return ctx.prisma.deckCollection.findMany();
+  }),
 });

@@ -4,7 +4,7 @@ import DeckCollectionCard from "./DeckCollectionCard";
 const Carousel = ({ deck }: { deck: Deck }) => {
   return (
     <div className="mx-4 pb-4">
-      <h1 className="font-title py-4 text-4xl font-extrabold sm:text-5xl lg:text-6xl">
+      <h1 className="py-4 text-4xl font-bold text-primary-content">
         {deck.title}
       </h1>
       <div className="carousel rounded-box space-x-4">

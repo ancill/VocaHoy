@@ -22,10 +22,11 @@ const MyApp: AppType<{ session: Session | null }> = ({
     setActivePage(route);
     router.push(route === NAVIGATION_ROUTES.stats ? "/" : route);
   };
+
   return (
-    <div
+    <body
       data-theme="dracula"
-      className="grid place-items-center items-end bg-gradient-to-b from-base-300 to-base-100 "
+      className="h-screen bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400"
     >
       <SessionProvider session={session}>
         <Head>
@@ -39,7 +40,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
           <NavBottomBar activePage={activePage} setActivePage={changePage} />
         </div>
       </SessionProvider>
-    </div>
+    </body>
   );
 };
 

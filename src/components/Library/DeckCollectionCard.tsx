@@ -11,7 +11,7 @@ const DeckCollectionCard = ({
   const router = useRouter();
 
   return (
-    <div className="card card-compact w-64 bg-base-100 text-white shadow-xl">
+    <div className="card-compact card w-64 bg-base-100 text-white shadow-xl">
       <figure>
         <img
           src={image}

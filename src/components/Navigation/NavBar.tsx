@@ -27,9 +27,9 @@ const NavBar = ({ route }: Props) => {
   };
 
   return (
-    <div className="navbar glass sticky top-0 z-10  rounded-lg">
+    <div className="navbar glass sticky top-0 z-10  rounded-lg text-primary-content">
       <div className="navbar-start">
-        <a className="btn-ghost btn text-xl normal-case">
+        <a className="btn-ghost btn text-2xl font-extrabold normal-case">
           {getRouterForTitle()}
         </a>
       </div>
@@ -37,7 +37,7 @@ const NavBar = ({ route }: Props) => {
         <ul className="menu menu-horizontal px-1">
           <li>
             {NAVIGATION_CONFIGURATION.map((el) => (
-              <Link key={el.title} href={el.route}>
+              <Link key={el.title} href={el.route} className="font-bold">
                 {el.title}
               </Link>
             ))}

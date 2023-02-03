@@ -95,13 +95,12 @@ const deckCollection: {
   },
 };
 
-function Decks() {
+function LibraryPage() {
   return (
     <div className="glass my-4 rounded-lg">
       <Carousel deck={deckCollection.popular} />
-      <Carousel deck={deckCollection.user} />
     </div>
   );
 }
 
-export default Decks;
+export default LibraryPage;
