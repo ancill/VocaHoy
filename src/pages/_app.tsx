@@ -24,23 +24,23 @@ const MyApp: AppType<{ session: Session | null }> = ({
   };
 
   return (
-    <body
+    <main
       data-theme="dracula"
       className="h-screen bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400"
     >
+      <Head>
+        <title>Blazingly fast</title>
+        <meta name="description" content="Fast vocabulary builder" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <SessionProvider session={session}>
-        <Head>
-          <title>Blazingly fast</title>
-          <meta name="description" content="Fast vocabulary builder" />
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
         <div className="container mx-auto py-4">
           <NavBar route={activePage} />
           <Component {...pageProps} />
           <NavBottomBar activePage={activePage} setActivePage={changePage} />
         </div>
       </SessionProvider>
-    </body>
+    </main>
   );
 };
 
