@@ -1,6 +1,7 @@
 import ReactCardFlip from "react-card-flip";
 import ControlButtons from "./ControlButtons";
 import { ReactEventHandler, SyntheticEvent, useState } from "react";
+import { Card } from "@prisma/client";
 
 const sessionCards = [
   {
@@ -213,8 +214,8 @@ const CardFlipContent = ({
   );
 };
 
-const Card = ({}) => {
-  const [cards, setCards] = useState(sessionCards);
+const Card = ({ cardCollection }: { cardCollection: Card[] }) => {
+  const [cards, setCards] = useState(cardCollection);
   const image =
     "https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg";
 

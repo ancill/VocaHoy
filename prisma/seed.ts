@@ -8,6 +8,8 @@ async function main() {
       label: "Dev",
       category: DeckCategory.PERSONAL,
       description: "Development collection",
+      imgUrl:
+        "https://daisyui.com/images/stock/photo-1601004890684-d8cbf643f5f2.jpg",
     },
   });
 

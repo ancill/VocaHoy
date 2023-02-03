@@ -1,14 +1,15 @@
-import { Deck, DeckCollection } from "../../types/Library";
+import { DeckCollection } from "@prisma/client";
 import DeckCollectionCard from "./DeckCollectionCard";
 
-const Carousel = ({ deck }: { deck: Deck }) => {
+const Carousel = ({ collections }: { collections: DeckCollection[] }) => {
+  console.log(collections);
   return (
     <div className="mx-4 pb-4">
       <h1 className="py-4 text-4xl font-bold text-primary-content">
-        {deck.title}
+        Collections
       </h1>
       <div className="carousel rounded-box space-x-4">
-        {deck.collection.map((el: DeckCollection) => (
+        {collections.map((el) => (
           <div className="carousel-item" key={el.id}>
             <DeckCollectionCard {...el} />
           </div>

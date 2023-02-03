@@ -1,12 +1,13 @@
 import { useRouter } from "next/router";
-import { DeckCollection } from "../../types/Library";
 import { NAVIGATION_ROUTES } from "../../constants/navigation";
+import { DeckCollection } from "@prisma/client";
 
 const DeckCollectionCard = ({
-  title,
+  category,
   description,
-  buttonInfo,
-  image,
+  id,
+  imgUrl,
+  label,
 }: DeckCollection) => {
   const router = useRouter();
 
@@ -14,20 +15,20 @@ const DeckCollectionCard = ({
     <div className="card-compact card w-64 bg-base-100 text-white shadow-xl">
       <figure>
         <img
-          src={image}
+          src={imgUrl}
           alt="car!"
           className="bg-gradient-to-r from-primary to-accent"
         />
       </figure>
       <div className="card-body">
-        <h2 className="card-title">{title}</h2>
+        <h2 className="card-title">{label}</h2>
         <p>{description}</p>
         <div className="card-actions justify-end">
           <button
             className="btn-primary btn"
             onClick={() => router.push(NAVIGATION_ROUTES.deckSession)}
           >
-            {buttonInfo}
+            CLICK ME
           </button>
         </div>
       </div>

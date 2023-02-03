@@ -75,6 +75,7 @@ model DeckCollection {
     id          String        @id @default(cuid())
     label       String
     description String
+    imgUrl      String
     category    DeckCategory
     cards       Card[]
     DeckSession DeckSession[]

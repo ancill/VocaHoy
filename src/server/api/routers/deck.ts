@@ -22,4 +22,8 @@ export const deckRouter = createTRPCRouter({
   getDeckCollection: protectedProcedure.query(({ ctx }) => {
     return ctx.prisma.deckCollection.findMany();
   }),
+
+  getCardsForCollection: protectedProcedure.query(({ ctx }) => {
+    return ctx.prisma.card.findMany();
+  }),
 });
