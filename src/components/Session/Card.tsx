@@ -1,42 +1,15 @@
 import ReactCardFlip from "react-card-flip";
-import ControlButtons from "./ControlButtons";
-import { ReactEventHandler, SyntheticEvent, useState } from "react";
+import { SyntheticEvent, useState } from "react";
 import { Card } from "@prisma/client";
 
-const sessionCards = [
-  {
-    front: "Helado",
-    back: "Ice-Cream",
-    audioUrl: "",
-    imgUrl:
-      "https://daisyui.com/images/stock/photo-1559703248-dcaaec9fab78.jpg",
-    id: "1",
-  },
-  {
-    front: "Lemona",
-    back: "Lemon",
-    audioUrl: "",
-    imgUrl:
-      "https://daisyui.com/images/stock/photo-1572635148818-ef6fd45eb394.jpg",
-    id: "2",
-  },
-  {
-    front: "Vino",
-    back: "Venigare",
-    audioUrl: "",
-    imgUrl:
-      "https://daisyui.com/images/stock/photo-1565098772267-60af42b81ef2.jpg",
-    id: "3",
-  },
-];
 const BackCardButtons = ({
-  onClick,
+  onClickAction,
 }: {
-  onClick: (action: BackButtonActon) => void;
+  onClickAction: (action: BackButtonActon) => void;
 }) => {
   const handleClick = (e: SyntheticEvent, action: BackButtonActon) => {
     e.stopPropagation();
-    onClick(action);
+    onClickAction(action);
   };
 
   return (
@@ -99,13 +72,9 @@ const BackCardButtons = ({
   );
 };
 
-const FrontCardButtons = ({
-  onClick,
-}: {
-  onClick: (e: SyntheticEvent) => void;
-}) => (
+const FrontCardButtons = () => (
   <div className="card-actions">
-    <button className="btn-outline btn" onClick={onClick}>
+    <button className="btn-outline btn" name="card">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
@@ -124,113 +93,89 @@ const FrontCardButtons = ({
           strokeLinejoin="round"
           d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
         />
-      </svg>
+      </svg>{" "}
     </button>
   </div>
 );
 type BackButtonActon = "done" | "repeat";
 
-const CardContent = ({
-  isFront,
-  front,
-  back,
-  img,
-  onCardClick,
-  onActionClick,
-}: {
-  isFront: boolean;
-  front?: string;
-  back?: string;
-  img: string;
-  onActionClick: (action: BackButtonActon) => void;
-  onCardClick: (e: SyntheticEvent) => void;
-}) => {
-  const handleClickActions = (action: BackButtonActon) => {
-    onActionClick(action);
-  };
-
-  return (
-    <div
-      className="card w-96 bg-base-200 text-center shadow-xl"
-      onClick={onCardClick}
-    >
-      <figure className="relative px-10 pt-10">
-        <img
-          src={img}
-          alt={front}
-          className={`${isFront ? "blur-2xl" : ""} rounded-xl`}
-        />
-        {!isFront && (
-          <h2 className="absolute bottom-4 text-5xl font-bold text-base-200 backdrop-blur-sm">
-            {front}
-          </h2>
-        )}
-      </figure>
-      <div className="card-body items-center text-center">
-        <h2
-          className={`${
-            isFront ? "text-primary" : "text-base"
-          }  card-title mb-4 text-5xl`}
-        >
-          {isFront ? front : back}
-        </h2>
-        {isFront && <FrontCardButtons onClick={onCardClick} />}
-        {!isFront && <BackCardButtons onClick={handleClickActions} />}
-      </div>
-    </div>
-  );
-};
-
-const CardFlipContent = ({
-  front,
-  back,
-  imgUrl,
+const CardFlipper = ({
   handleActions,
+  cardInfo: { imgUrl, audioUrl, back, deckCollectionId, front },
 }: {
-  front?: string;
-  back?: string;
-  imgUrl: string;
   handleActions: (action: BackButtonActon) => void;
+  cardInfo: Card;
 }) => {
   const [isFlipped, setFlip] = useState(false);
 
-  const Card = ({ isFront }: { isFront: boolean }) => (
-    <CardContent
-      isFront={isFront}
-      back={back}
-      front={front}
-      img={imgUrl}
-      onCardClick={() => setFlip(!isFlipped)}
-      onActionClick={handleActions}
-    />
+  const flipCard = (e: SyntheticEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setFlip(!isFlipped);
+  };
+
+  const renderImg = () => (
+    <img src={imgUrl} alt={front} className="rounded-xl" />
   );
+
+  const renderLabel = (label: string, isQuestion: boolean = false) => {
+    return (
+      <h2
+        className={`min-h-16 card-title mb-4 ${
+          isQuestion ? "text-4xl" : "text-2xl"
+        }`}
+      >
+        {label}
+      </h2>
+    );
+  };
   return (
-    <div>
-      <ReactCardFlip isFlipped={isFlipped} flipDirection="horizontal">
-        <Card isFront={true} />
-        <Card isFront={false} />
-      </ReactCardFlip>
-    </div>
+    <ReactCardFlip isFlipped={isFlipped} flipDirection="horizontal">
+      <div
+        className="card w-96 bg-base-200 text-center shadow-xl"
+        onClick={flipCard}
+      >
+        <figure className="relative px-10 pt-10">{renderImg()}</figure>
+        <div className="card-body items-center text-center">
+          {renderLabel(front, true)}
+          <FrontCardButtons />
+        </div>
+      </div>
+
+      <div
+        className="card w-96 bg-base-200 text-center shadow-xl"
+        onClick={flipCard}
+      >
+        <figure className="relative px-10 pt-10">
+          {renderImg()}
+          <h2 className="absolute bottom-4 text-5xl font-bold text-base-200 backdrop-blur-sm">
+            {front}
+          </h2>
+        </figure>
+        <div className="card-body items-center text-center">
+          {renderLabel(back)}
+          <BackCardButtons onClickAction={handleActions} />
+        </div>
+      </div>
+    </ReactCardFlip>
   );
 };
 
-const Card = ({ cardCollection }: { cardCollection: Card[] }) => {
-  const [cards, setCards] = useState(cardCollection);
-  const image =
-    "https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg";
-
+const CardStack = ({ cardCollection }: { cardCollection: Card[] }) => {
   const handleActions = (action: BackButtonActon) => {
-    if (action === "done") setCards(cards.slice(1));
+    if (action === "done") console.log(action);
   };
   return (
     <div className="mt-5 flex flex-col items-center">
       <div className="stack">
-        {cards.map((el) => (
-          <CardFlipContent {...el} key={el.id} handleActions={handleActions} />
+        {cardCollection.map((card) => (
+          <div key={card.id}>
+            <CardFlipper cardInfo={card} handleActions={handleActions} />
+          </div>
         ))}
       </div>
     </div>
   );
 };
 
-export default Card;
+export default CardStack;

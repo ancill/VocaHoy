@@ -1,4 +1,3 @@
-import { Deck } from "../types/Library";
 import Carousel from "../components/Library/Carousel";
 import { useRouter } from "next/router";
 import { api } from "../utils/api";

@@ -2,7 +2,6 @@ import { DeckCollection } from "@prisma/client";
 import DeckCollectionCard from "./DeckCollectionCard";
 
 const Carousel = ({ collections }: { collections: DeckCollection[] }) => {
-  console.log(collections);
   return (
     <div className="mx-4 pb-4">
       <h1 className="py-4 text-4xl font-bold text-primary-content">
