@@ -99,8 +99,8 @@ model DeckSession {
     userId           String
     deckCollection   DeckCollection @relation(fields: [deckCollectionId], references: [id])
     deckCollectionId String
-    review           Int
-    new              Int
-    mastered         Int
-    progress         Int
+    review           Int            @default(0)
+    new              Int            @default(0)
+    mastered         Int            @default(0)
+    progress         Int            @default(0)
 }

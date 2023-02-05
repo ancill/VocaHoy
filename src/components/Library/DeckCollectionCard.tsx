@@ -1,6 +1,8 @@
 import { useRouter } from "next/router";
 import { NAVIGATION_ROUTES } from "../../constants/navigation";
 import { DeckCollection } from "@prisma/client";
+import { useSession } from "next-auth/react";
+import { api } from "../../utils/api";
 
 const DeckCollectionCard = ({
   category,
@@ -10,6 +12,14 @@ const DeckCollectionCard = ({
   label,
 }: DeckCollection) => {
   const router = useRouter();
+  const createSessionMutation = api.deckSession.createSession.useMutation();
+
+  const handleCardClick = async () => {
+    const result = await createSessionMutation.mutateAsync({
+      deckCollectionId: id,
+    });
+    router.push({ href: NAVIGATION_ROUTES.deckSession, query: result.id });
+  };
 
   return (
     <div className="card-compact card w-64 bg-base-100 text-white shadow-xl">
@@ -24,11 +34,8 @@ const DeckCollectionCard = ({
         <h2 className="card-title">{label}</h2>
         <p>{description}</p>
         <div className="card-actions justify-end">
-          <button
-            className="btn-primary btn"
-            onClick={() => router.push(NAVIGATION_ROUTES.deckSession)}
-          >
-            CLICK ME
+          <button className="btn-primary btn" onClick={handleCardClick}>
+            Learn
           </button>
         </div>
       </div>

@@ -1,6 +1,7 @@
 import { createTRPCRouter } from "./trpc";
 import { exampleRouter } from "./routers/example";
 import { deckRouter } from "./routers/deck";
+import { deckSession } from "./routers/session";
 
 /**
  * This is the primary router for your server.
@@ -10,6 +11,7 @@ import { deckRouter } from "./routers/deck";
 export const appRouter = createTRPCRouter({
   example: exampleRouter,
   deck: deckRouter,
+  deckSession: deckSession,
 });
 
 // export type definition of API
