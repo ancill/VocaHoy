@@ -13,12 +13,25 @@ const DeckCollectionCard = ({
 }: DeckCollection) => {
   const router = useRouter();
   const createSessionMutation = api.deckSession.createSession.useMutation();
+  const { data, isFetching, error } = api.deckSession.getSession.useQuery({
+    deckCollectionId: id,
+  });
 
   const handleCardClick = async () => {
-    const result = await createSessionMutation.mutateAsync({
-      deckCollectionId: id,
-    });
-    router.push({ href: NAVIGATION_ROUTES.deckSession, query: result.id });
+    let sessionIdForRouter = data?.sessionId;
+    let isEnded = false; // TODO: Add check for ended session
+
+    // If session is not exist or it's already ended create new one
+    if (!sessionIdForRouter || isEnded) {
+      const result = await createSessionMutation.mutateAsync({
+        deckCollectionId: id,
+      });
+
+      sessionIdForRouter = result.sessionId;
+    }
+
+    // Redirect to dynamic page for each session
+    router.push(NAVIGATION_ROUTES.deckSession + `/${sessionIdForRouter}`);
   };
 
   return (

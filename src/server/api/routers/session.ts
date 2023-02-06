@@ -45,7 +45,7 @@ export const deckSession = createTRPCRouter({
     .mutation(({ ctx, input }) => {
       return ctx.prisma.deckSession.update({
         where: {
-          id: input.sessionId,
+          sessionId: input.sessionId,
         },
         data: {
           mastered: input.mastered,

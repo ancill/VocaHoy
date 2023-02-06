@@ -2,7 +2,7 @@ import CardStack from "../../components/Session/Card";
 import ProgressBar from "../../components/Session/ProgressBar";
 import { api } from "../../utils/api";
 
-const SessionPage = ({}) => {
+const SessionPage = () => {
   const { data, error, isLoading } = api.deck.getCardsForCollection.useQuery();
 
   if (isLoading || !data) return <div>Loading</div>;

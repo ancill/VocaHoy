@@ -55,7 +55,7 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
-    DeckSession   DeckSession[]
+    deckSessions  DeckSession[]
 }
 
 model VerificationToken {
@@ -72,13 +72,13 @@ enum DeckCategory {
 }
 
 model DeckCollection {
-    id          String        @id @default(cuid())
-    label       String
-    description String
-    imgUrl      String
-    category    DeckCategory
-    cards       Card[]
-    DeckSession DeckSession[]
+    id           String        @id @default(cuid())
+    label        String
+    description  String
+    imgUrl       String
+    category     DeckCategory
+    cards        Card[]
+    deckSessions DeckSession[]
 }
 
 model Card {
@@ -92,7 +92,7 @@ model Card {
 }
 
 model DeckSession {
-    id               String         @id @default(cuid())
+    sessionId        String         @id @default(cuid())
     createdAt        DateTime       @default(now())
     updatedAt        DateTime       @updatedAt
     user             User           @relation(fields: [userId], references: [id])

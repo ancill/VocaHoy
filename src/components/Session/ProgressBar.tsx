@@ -1,10 +1,21 @@
+import { useRouter } from "next/router";
+import {
+  NAVIGATION_CONFIGURATION,
+  NAVIGATION_ROUTES,
+} from "../../constants/navigation";
+
 const ProgressBar = () => {
+  const router = useRouter();
+
   const label = "Deck name";
   const progress = "25 words";
   return (
     <div className="navbar rounded-lg bg-base-100 px-6">
       <div className="navbar-start flex">
-        <button className="btn-outline btn-square btn mr-4 ">
+        <button
+          className="btn-outline btn-square btn mr-4"
+          onClick={() => router.push(NAVIGATION_ROUTES.lib)}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -32,9 +43,9 @@ const ProgressBar = () => {
       </div>
 
       <div className="navbar-end flex space-x-2">
-        <span className="badge badge-primary indicator-item"></span>
-        <span className="badge badge-accent indicator-item"></span>
-        <span className="badge badge-success indicator-item"></span>
+        <span className="badge-primary badge indicator-item"></span>
+        <span className="badge-accent badge indicator-item"></span>
+        <span className="badge-success badge indicator-item"></span>
       </div>
     </div>
   );
