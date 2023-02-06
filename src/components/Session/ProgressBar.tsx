@@ -3,12 +3,19 @@ import {
   NAVIGATION_CONFIGURATION,
   NAVIGATION_ROUTES,
 } from "../../constants/navigation";
+import { DeckSession } from "@prisma/client";
 
-const ProgressBar = () => {
+const ProgressBar = ({
+  deckLabel,
+  sessionInfo: { masteredCount, newCount, reviewCount, progressCount },
+}: {
+  sessionInfo: DeckSession;
+  deckLabel: string;
+}) => {
   const router = useRouter();
 
   const label = "Deck name";
-  const progress = "25 words";
+
   return (
     <div className="navbar rounded-lg bg-base-100 px-6">
       <div className="navbar-start flex">
@@ -32,8 +39,8 @@ const ProgressBar = () => {
           </svg>
         </button>
         <div>
-          <h3 className="text-xl normal-case">{label}</h3>
-          <span className="mr-4 text-base">{progress}</span>
+          <h3 className="text-xl normal-case">{deckLabel}</h3>
+          <span className="mr-4 text-base">{progressCount}</span>
           <progress
             className="progress progress-primary w-20"
             value="40"
@@ -43,9 +50,17 @@ const ProgressBar = () => {
       </div>
 
       <div className="navbar-end flex space-x-2">
-        <span className="badge-primary badge indicator-item"></span>
-        <span className="badge-accent badge indicator-item"></span>
-        <span className="badge-success badge indicator-item"></span>
+        {[
+          { count: newCount, badge: "badge-primary" },
+          { count: reviewCount, badge: "badge-accent" },
+          { count: masteredCount, badge: "badge-success" },
+        ].map((el) => (
+          <span
+            className={`${el.badge} badge indicator-item py-3 px-2 font-mono text-lg`}
+          >
+            {el.count}
+          </span>
+        ))}
       </div>
     </div>
   );

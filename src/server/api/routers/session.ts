@@ -16,7 +16,26 @@ export const deckSession = createTRPCRouter({
         },
       });
     }),
-
+  getSessionWithCollection: protectedProcedure
+    .input(
+      z.object({
+        sessionId: z.string(),
+      })
+    )
+    .query(({ ctx, input }) => {
+      return ctx.prisma.deckSession.findFirst({
+        where: {
+          sessionId: input.sessionId,
+        },
+        include: {
+          deckCollection: {
+            include: {
+              cards: true,
+            },
+          },
+        },
+      });
+    }),
   createSession: protectedProcedure
     .input(
       z.object({
@@ -36,10 +55,10 @@ export const deckSession = createTRPCRouter({
     .input(
       z.object({
         sessionId: z.string(),
-        mastered: z.number(),
-        progress: z.number(),
-        review: z.number(),
-        new: z.number(),
+        masteredCount: z.number(),
+        progressCount: z.number(),
+        reviewCount: z.number(),
+        newCount: z.number(),
       })
     )
     .mutation(({ ctx, input }) => {
@@ -48,10 +67,10 @@ export const deckSession = createTRPCRouter({
           sessionId: input.sessionId,
         },
         data: {
-          mastered: input.mastered,
-          progress: input.progress,
-          review: input.review,
-          new: input.new,
+          masteredCount: input.masteredCount,
+          progressCount: input.progressCount,
+          reviewCount: input.reviewCount,
+          newCount: input.newCount,
         },
       });
     }),
