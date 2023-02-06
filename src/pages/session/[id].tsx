@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import CardStack from "../../components/Session/Card";
+import CardStack from "../../components/Session/Card/CardStack";
 import ProgressBar from "../../components/Session/ProgressBar";
 import { api } from "../../utils/api";
 import { useEffect } from "react";

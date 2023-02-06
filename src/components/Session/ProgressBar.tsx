@@ -14,8 +14,6 @@ const ProgressBar = ({
 }) => {
   const router = useRouter();
 
-  const label = "Deck name";
-
   return (
     <div className="navbar rounded-lg bg-base-100 px-6">
       <div className="navbar-start flex">
@@ -56,6 +54,7 @@ const ProgressBar = ({
           { count: masteredCount, badge: "badge-success" },
         ].map((el) => (
           <span
+            key={el.badge}
             className={`${el.badge} badge indicator-item py-3 px-2 font-mono text-lg`}
           >
             {el.count}

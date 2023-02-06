@@ -1,6 +1,8 @@
-import ReactCardFlip from "react-card-flip";
-import { SyntheticEvent, useState } from "react";
 import { Card } from "@prisma/client";
+import { useState, SyntheticEvent } from "react";
+import ReactCardFlip from "react-card-flip";
+
+export type BackButtonActon = "done" | "repeat";
 
 const BackCardButtons = ({
   onClickAction,
@@ -31,7 +33,7 @@ const BackCardButtons = ({
         </svg>
       </button>
       <button
-        className="btn-primary btn"
+        className="btn-accent btn"
         onClick={(e) => handleClick(e, "repeat")}
       >
         <svg
@@ -50,7 +52,7 @@ const BackCardButtons = ({
         </svg>
       </button>
       <button
-        className="btn-accent btn"
+        className="btn-success btn hover:border-green-600 hover:bg-green-600"
         onClick={(e) => handleClick(e, "done")}
       >
         <svg
@@ -97,13 +99,10 @@ const FrontCardButtons = () => (
     </button>
   </div>
 );
-type BackButtonActon = "done" | "repeat";
 
 const CardFlipper = ({
-  handleActions,
   cardInfo: { imgUrl, audioUrl, back, deckCollectionId, front },
 }: {
-  handleActions: (action: BackButtonActon) => void;
   cardInfo: Card;
 }) => {
   const [isFlipped, setFlip] = useState(false);
@@ -112,6 +111,10 @@ const CardFlipper = ({
     e.preventDefault();
     e.stopPropagation();
     setFlip(!isFlipped);
+  };
+
+  const handleActions = (action: BackButtonActon) => {
+    console.log(action);
   };
 
   const renderImg = () => (
@@ -161,21 +164,4 @@ const CardFlipper = ({
   );
 };
 
-const CardStack = ({ cardCollection }: { cardCollection: Card[] }) => {
-  const handleActions = (action: BackButtonActon) => {
-    if (action === "done") console.log(action);
-  };
-  return (
-    <div className="mt-5 flex flex-col items-center">
-      <div className="stack">
-        {cardCollection.map((card) => (
-          <div key={card.id}>
-            <CardFlipper cardInfo={card} handleActions={handleActions} />
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
-
-export default CardStack;
+export default CardFlipper;
