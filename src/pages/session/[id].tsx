@@ -3,6 +3,7 @@ import CardStack from "../../components/Session/Card/CardStack";
 import ProgressBar from "../../components/Session/ProgressBar";
 import { api } from "../../utils/api";
 import { useEffect } from "react";
+import Loader from "../../components/Loader";
 
 const SessionPage = () => {
   const router = useRouter();
@@ -12,12 +13,7 @@ const SessionPage = () => {
       sessionId: (router.query.id as string) || "", // query.id on first render undefined
     });
 
-  if (isLoading || !data)
-    return (
-      <div className="radial-progress" style={{ "--value": 70 }}>
-        70%
-      </div>
-    );
+  if (isLoading || !data) return <Loader />;
   return (
     <div className="container glass mx-auto mt-4 flex flex-col rounded-lg pb-24">
       <ProgressBar sessionInfo={data} deckLabel={data.deckCollection.label} />
