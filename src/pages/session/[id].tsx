@@ -12,7 +12,12 @@ const SessionPage = () => {
       sessionId: (router.query.id as string) || "", // query.id on first render undefined
     });
 
-  if (isLoading || !data) return <div>Loading</div>;
+  if (isLoading || !data)
+    return (
+      <div className="radial-progress" style={{ "--value": 70 }}>
+        70%
+      </div>
+    );
   return (
     <div className="container glass mx-auto mt-4 flex flex-col rounded-lg pb-24">
       <ProgressBar sessionInfo={data} deckLabel={data.deckCollection.label} />
