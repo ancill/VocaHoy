@@ -31,7 +31,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <SessionProvider session={session}>
-        <div className="container mx-auto py-4">
+        <div className="container mx-auto">
           <NavBar route={activePage} />
           <Component {...pageProps} />
           <NavBottomBar activePage={activePage} setActivePage={changePage} />
