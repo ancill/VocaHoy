@@ -27,7 +27,7 @@ const NavBar = ({ route }: Props) => {
   };
 
   return (
-    <div className="navbar sticky top-0 z-10 rounded-lg bg-base-100">
+    <div className="navbar sticky top-0 z-10 mb-4 rounded-lg bg-base-100">
       <div className="navbar-start">
         <a className="btn-ghost btn text-2xl font-extrabold normal-case text-secondary">
           {getRouterForTitle()}

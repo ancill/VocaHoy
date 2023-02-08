@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { NAVIGATION_ROUTES } from "../constants/navigation";
+import { NAVIGATION_ROUTES } from "../../constants/navigation";
 
 export default function FourOhFour() {
   const router = useRouter();
   return (
-    <div className="hero min-h-screen bg-base-200">
-      <div className="hero-content text-center">
+    <div className="hero bg-base-200">
+      <div className="hero-content py-32 text-center">
         <div className="max-w-md">
           <h1 className="text-5xl font-bold">404</h1>
           <p className="py-6">Page is not exist!</p>

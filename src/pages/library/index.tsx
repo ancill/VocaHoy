@@ -1,7 +1,7 @@
-import Carousel from "../components/Library/Carousel";
+import Carousel from "../../components/Library/Carousel";
 import { useRouter } from "next/router";
-import { api } from "../utils/api";
-import Loader from "../components/Loader";
+import { api } from "../../utils/api";
+import Loader from "../../components/Loader";
 
 function LibraryPage() {
   const { query } = useRouter();

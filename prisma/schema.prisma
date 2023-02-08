@@ -87,6 +87,8 @@ model Card {
     back             String
     audioUrl         String
     imgUrl           String
+    interval         Int             @default(1)
+    nextReview       DateTime        @default(now())
     DeckCollection   DeckCollection? @relation(fields: [deckCollectionId], references: [id])
     deckCollectionId String?
 }
