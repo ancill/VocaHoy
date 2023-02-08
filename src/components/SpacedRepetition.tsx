@@ -61,50 +61,48 @@ const SpacedRepetition: React.FC = () => {
   const [flashcards, setFlashcards] =
     useState<Flashcard[]>(flashcardsCollection);
 
-  const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [currentCard, setCurrentCard] = useState<Flashcard | null>(null);
-  const [flashcardsReview, setFlashcardsReview] = useState<Flashcard[]>([]);
+  const [correctFlashCards, setCorrectFlashCards] = useState<Flashcard[]>([]);
 
   useEffect(() => {
     if (flashcards.length === 0) return;
+
+    setCurrentCard(flashcards[0]!);
     console.log(flashcards);
-    setCurrentCard(flashcards[currentCardIndex]!);
   }, [flashcards]);
 
-  const handleRepeatAgain = () => {
-    const updatedFlashcards = [...flashcards];
+  const getFlashCardsCopyAndUpdatedCard = (isCorrect: boolean) => {
+    const flashCardsCopy = [...flashcards];
     const updatedCard = {
       ...currentCard!,
-      interval: 1,
+      interval: isCorrect ? currentCard!.interval * 2 : 1,
       nextReview: new Date(
         new Date().getTime() + currentCard!.interval * 24 * 60 * 60 * 1000
       ),
     };
+    return { flashCardsCopy, updatedCard };
+  };
+
+  const handleRepeatAgain = () => {
+    const { flashCardsCopy, updatedCard } =
+      getFlashCardsCopyAndUpdatedCard(false);
 
     const middleIndex = Math.floor(flashcards.length / 2);
-    updatedFlashcards.splice(middleIndex, 0, updatedCard!);
-    updatedFlashcards.shift();
+    flashCardsCopy.splice(middleIndex, 0, updatedCard!);
+    flashCardsCopy.shift();
 
-    setFlashcards(updatedFlashcards);
     setCurrentCard(null);
+    setFlashcards(flashCardsCopy);
   };
 
   const handleCorrect = () => {
-    const updatedFlashcards = [...flashcards];
-    const updatedCard = {
-      ...currentCard!,
-      interval: currentCard!.interval * 2,
-      nextReview: new Date(
-        new Date().getTime() + currentCard!.interval * 24 * 60 * 60 * 1000
-      ),
-    };
+    const { flashCardsCopy, updatedCard } =
+      getFlashCardsCopyAndUpdatedCard(true);
 
-    updatedFlashcards[currentCardIndex] = updatedCard;
-
-    setFlashcardsReview(updatedCard);
-    setFlashcards(updatedFlashcards);
-
+    setCorrectFlashCards([...correctFlashCards, updatedCard]);
+    flashCardsCopy.shift();
     setCurrentCard(null);
+    setFlashcards(flashCardsCopy);
   };
 
   if (!currentCard) return <p>No cards to review</p>;
