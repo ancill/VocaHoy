@@ -9,14 +9,10 @@ function LibraryPage() {
 
   if (isLoading || error) return <Loader />;
   return (
-    <div className="glass my-4 rounded-lg">
-      <div className="mx-4 pb-4">
-        <h1 className="py-4 text-4xl font-bold text-primary-content">
-          Collections
-        </h1>
-        <Carousel collections={data} />
-      </div>
-    </div>
+    <>
+      <h1 className="p-6 text-4xl font-bold">Collections</h1>
+      <Carousel collections={data} />
+    </>
   );
 }
 

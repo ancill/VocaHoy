@@ -24,12 +24,9 @@ const MyApp: AppType<{ session: Session | null }> = ({
   };
 
   return (
-    <main
-      data-theme="dracula"
-      className="h-screen bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400"
-    >
+    <main data-theme="dracula" className="h-screen bg-base-300">
       <Head>
-        <title>Blazingly fast</title>
+        <title>VocaHoy</title>
         <meta name="description" content="Fast vocabulary builder" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
