@@ -35,13 +35,9 @@ const DeckCollectionCard = ({
   };
 
   return (
-    <div className="card-compact card w-64 bg-base-100 text-white shadow-xl">
+    <div className="card bg-base-100 shadow-xl lg:card-side">
       <figure>
-        <img
-          src={imgUrl}
-          alt="car!"
-          className="bg-gradient-to-r from-primary to-accent"
-        />
+        <img src={imgUrl} alt="Collection" />
       </figure>
       <div className="card-body">
         <h2 className="card-title">{label}</h2>

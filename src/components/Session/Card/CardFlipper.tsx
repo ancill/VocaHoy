@@ -135,7 +135,7 @@ const CardFlipper = ({
   return (
     <ReactCardFlip isFlipped={isFlipped} flipDirection="horizontal">
       <div
-        className="card w-96 bg-base-200 text-center shadow-xl"
+        className="card w-96 bg-base-100 text-center shadow-xl"
         onClick={flipCard}
       >
         <figure className="relative px-10 pt-10">{renderImg()}</figure>
@@ -146,7 +146,7 @@ const CardFlipper = ({
       </div>
 
       <div
-        className="card w-96 bg-base-200 text-center shadow-xl"
+        className="card w-96 bg-base-100 text-center shadow-xl"
         onClick={flipCard}
       >
         <figure className="relative px-10 pt-10">
