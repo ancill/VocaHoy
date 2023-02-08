@@ -4,11 +4,6 @@ import { api } from "../../utils/api";
 const Auth: React.FC = () => {
   const { data: sessionData } = useSession();
 
-  const { data: secretMessage } = api.example.getSecretMessage.useQuery(
-    undefined, // no input
-    { enabled: sessionData?.user !== undefined }
-  );
-
   if (!sessionData) {
     return (
       <button className="btn" onClick={() => void signIn()}>

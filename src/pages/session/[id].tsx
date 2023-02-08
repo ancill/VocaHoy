@@ -17,7 +17,10 @@ const SessionPage = () => {
   return (
     <div className="container mx-auto flex flex-col rounded-lg bg-base-200 pb-24">
       <ProgressBar sessionInfo={data} deckLabel={data.deckCollection.label} />
-      <CardStack cardCollection={data.deckCollection.cards} />
+      <CardStack
+        cardCollection={data.deckCollection.cards}
+        currentSession={data}
+      />
     </div>
   );
 };

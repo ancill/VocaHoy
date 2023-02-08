@@ -19,10 +19,9 @@ const DeckCollectionCard = ({
 
   const handleCardClick = async () => {
     let sessionIdForRouter = data?.sessionId;
-    let isEnded = false; // TODO: Add check for ended session
 
     // If session is not exist or it's already ended create new one
-    if (!sessionIdForRouter || isEnded) {
+    if (!sessionIdForRouter) {
       const result = await createSessionMutation.mutateAsync({
         deckCollectionId: id,
       });
