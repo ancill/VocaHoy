@@ -18,7 +18,7 @@ const flashcardsCollection: Flashcard[] = [
   {
     question: "What is JavaScript?",
     answer: "JavaScript is a high-level, interpreted programming language.",
-    interval: 1,
+    interval: 2,
     nextReview: new Date(),
   },
   {
@@ -63,33 +63,30 @@ const SpacedRepetition: React.FC = () => {
 
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [currentCard, setCurrentCard] = useState<Flashcard | null>(null);
+  const [flashcardsReview, setFlashcardsReview] = useState<Flashcard[]>([]);
 
   useEffect(() => {
     if (flashcards.length === 0) return;
-
     console.log(flashcards);
-
-    const now = new Date();
-    const nextCardIndex = flashcards.findIndex(
-      (card) => card.nextReview <= now
-    );
-
-    if (nextCardIndex === -1) {
-      setCurrentCard(null);
-      return;
-    }
-
-    setCurrentCardIndex(nextCardIndex);
-    setCurrentCard(flashcards[nextCardIndex]);
+    setCurrentCard(flashcards[currentCardIndex]!);
   }, [flashcards]);
 
   const handleRepeatAgain = () => {
     const updatedFlashcards = [...flashcards];
+    const updatedCard = {
+      ...currentCard!,
+      interval: 1,
+      nextReview: new Date(
+        new Date().getTime() + currentCard!.interval * 24 * 60 * 60 * 1000
+      ),
+    };
+
     const middleIndex = Math.floor(flashcards.length / 2);
-    updatedFlashcards.splice(middleIndex, 0, currentCard!);
+    updatedFlashcards.splice(middleIndex, 0, updatedCard!);
     updatedFlashcards.shift();
+
     setFlashcards(updatedFlashcards);
-    setCurrentCardIndex(middleIndex);
+    setCurrentCard(null);
   };
 
   const handleCorrect = () => {
@@ -101,22 +98,12 @@ const SpacedRepetition: React.FC = () => {
         new Date().getTime() + currentCard!.interval * 24 * 60 * 60 * 1000
       ),
     };
-    updatedFlashcards[currentCardIndex] = updatedCard;
-    setFlashcards(updatedFlashcards);
-    setCurrentCard(null);
-  };
 
-  const handleIncorrect = () => {
-    const updatedFlashcards = [...flashcards];
-    const updatedCard = {
-      ...currentCard!,
-      interval: 1,
-      nextReview: new Date(
-        new Date().getTime() + currentCard!.interval * 24 * 60 * 60 * 1000
-      ),
-    };
     updatedFlashcards[currentCardIndex] = updatedCard;
+
+    setFlashcardsReview(updatedCard);
     setFlashcards(updatedFlashcards);
+
     setCurrentCard(null);
   };
 
@@ -128,9 +115,6 @@ const SpacedRepetition: React.FC = () => {
       <p className="text-1xl mb-6 font-bold">{currentCard.answer}</p>
       <button className="btn-primary btn" onClick={handleCorrect}>
         Correct
-      </button>
-      <button className="btn-secondary btn" onClick={handleIncorrect}>
-        Incorrect
       </button>
       <button className="btn-accent btn" onClick={handleRepeatAgain}>
         Repeat Again
