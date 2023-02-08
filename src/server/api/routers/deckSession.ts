@@ -13,6 +13,8 @@ export const deckSession = createTRPCRouter({
       return ctx.prisma.deckSession.findFirst({
         where: {
           deckCollectionId: input.deckCollectionId,
+          userId: ctx.session.user.id,
+          isSessionEnded: false,
         },
       });
     }),
@@ -23,6 +25,8 @@ export const deckSession = createTRPCRouter({
       })
     )
     .query(({ ctx, input }) => {
+      const today = new Date();
+
       return ctx.prisma.deckSession.findFirst({
         where: {
           sessionId: input.sessionId,
@@ -30,7 +34,13 @@ export const deckSession = createTRPCRouter({
         include: {
           deckCollection: {
             include: {
-              cards: true,
+              cards: {
+                where: {
+                  nextReview: {
+                    lte: today,
+                  },
+                },
+              },
             },
           },
         },
@@ -42,11 +52,25 @@ export const deckSession = createTRPCRouter({
         deckCollectionId: z.string(),
       })
     )
-    .mutation(({ ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
+      const today = new Date();
+      // fetch all cards with a nextReview date of today
+      const cards = await ctx.prisma.card.findMany({
+        where: {
+          nextReview: {
+            equals: today,
+          },
+        },
+      });
+
+      // create the deck session with the sessionCards field populated with the cards fetched above
       return ctx.prisma.deckSession.create({
         data: {
           deckCollectionId: input.deckCollectionId,
           userId: ctx.session.user.id,
+          sessionCards: {
+            connect: cards.map((card) => ({ id: card.id })),
+          },
         },
       });
     }),
@@ -56,9 +80,12 @@ export const deckSession = createTRPCRouter({
       z.object({
         sessionId: z.string(),
         masteredCount: z.number(),
-        progressCount: z.number(),
         reviewCount: z.number(),
-        newCount: z.number(),
+        sessionCard: z.object({
+          nextReview: z.date(),
+          interval: z.number(),
+          id: z.string(),
+        }),
       })
     )
     .mutation(({ ctx, input }) => {
@@ -68,9 +95,21 @@ export const deckSession = createTRPCRouter({
         },
         data: {
           masteredCount: input.masteredCount,
-          progressCount: input.progressCount,
           reviewCount: input.reviewCount,
-          newCount: input.newCount,
+          sessionCards: {
+            connect: {
+              id: input.sessionCard.id,
+            },
+            update: {
+              data: {
+                nextReview: input.sessionCard.nextReview,
+                interval: input.sessionCard.interval,
+              },
+              where: {
+                id: input.sessionCard.id,
+              },
+            },
+          },
         },
       });
     }),

@@ -1,20 +1,27 @@
-import { Card } from "@prisma/client";
+import { Card, DeckSession } from "@prisma/client";
 import CardFlipper from "./CardFlipper";
 import { useEffect, useState } from "react";
+import { api } from "../../../utils/api";
 
 export type ButtonActions = "correct" | "repeat";
 
-const CardStack = ({ cardCollection }: { cardCollection: Card[] }) => {
+const CardStack = ({
+  cardCollection,
+  currentSession,
+}: {
+  cardCollection: Card[];
+  currentSession: DeckSession;
+}) => {
   const [flashcards, setFlashcards] = useState<Card[]>(cardCollection);
-
+  const [reviewCount, setReviewCount] = useState(0);
   const [currentCard, setCurrentCard] = useState<Card | null>(null);
-  const [correctFlashCards, setCorrectFlashCards] = useState<Card[]>([]);
+
+  const updateSessionMutation = api.deckSession.updateSession.useMutation();
 
   useEffect(() => {
     if (flashcards.length === 0) return;
 
     setCurrentCard(flashcards[0]!);
-    console.log(flashcards);
   }, [flashcards]);
 
   const getFlashCardsCopyAndUpdatedCard = (isCorrect: boolean) => {
@@ -26,11 +33,26 @@ const CardStack = ({ cardCollection }: { cardCollection: Card[] }) => {
         new Date().getTime() + currentCard!.interval * 24 * 60 * 60 * 1000
       ),
     };
-    return { flashCardsCopy, updatedCard };
+
+    const mutationDto = {
+      masteredCount: isCorrect
+        ? currentSession.masteredCount + 1
+        : currentSession.masteredCount,
+      reviewCount: reviewCount,
+      sessionId: currentSession.sessionId,
+      sessionCard: {
+        nextReview: updatedCard.nextReview,
+        interval: updatedCard.interval,
+        id: updatedCard.id,
+      },
+    };
+
+    return { flashCardsCopy, updatedCard, mutationDto };
   };
 
   const handleRepeatAgain = () => {
-    const { flashCardsCopy, updatedCard } =
+    setReviewCount(reviewCount + 1);
+    const { flashCardsCopy, updatedCard, mutationDto } =
       getFlashCardsCopyAndUpdatedCard(false);
 
     const middleIndex = Math.floor(flashcards.length / 2);
@@ -39,16 +61,17 @@ const CardStack = ({ cardCollection }: { cardCollection: Card[] }) => {
 
     setCurrentCard(null);
     setFlashcards(flashCardsCopy);
+    updateSessionMutation.mutateAsync(mutationDto);
   };
 
   const handleCorrect = () => {
-    const { flashCardsCopy, updatedCard } =
+    const { flashCardsCopy, mutationDto } =
       getFlashCardsCopyAndUpdatedCard(true);
 
-    setCorrectFlashCards([...correctFlashCards, updatedCard]);
     flashCardsCopy.shift();
     setCurrentCard(null);
     setFlashcards(flashCardsCopy);
+    updateSessionMutation.mutateAsync(mutationDto);
   };
 
   const handleActions = (action: ButtonActions) => {
