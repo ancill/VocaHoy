@@ -1,6 +1,6 @@
 import { type AppType } from "next/app";
 import { type Session } from "next-auth";
-import { SessionProvider } from "next-auth/react";
+import { SessionProvider, useSession } from "next-auth/react";
 
 import { api } from "../utils/api";
 
@@ -11,6 +11,7 @@ import NavBottomBar from "../components/Navigation/NavBottomBar";
 import Head from "next/head";
 import NavBar from "../components/Navigation/NavBar";
 import { NAVIGATION_ROUTES } from "../constants/navigation";
+import LoginForm from "../components/User/LoginForm";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -20,7 +21,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
   const router = useRouter();
   const changePage = (route: string) => {
     setActivePage(route);
-    router.push(route === NAVIGATION_ROUTES.stats ? "/" : route);
+    router.push(route);
   };
 
   return (
