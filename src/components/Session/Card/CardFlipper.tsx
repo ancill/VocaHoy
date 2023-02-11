@@ -1,15 +1,14 @@
 import { Card } from "@prisma/client";
 import { useState, SyntheticEvent } from "react";
 import ReactCardFlip from "react-card-flip";
-
-export type BackButtonActon = "done" | "repeat";
+import { ButtonActions } from "./CardStack";
 
 const BackCardButtons = ({
   onClickAction,
 }: {
-  onClickAction: (action: BackButtonActon) => void;
+  onClickAction: (action: ButtonActions) => void;
 }) => {
-  const handleClick = (e: SyntheticEvent, action: BackButtonActon) => {
+  const handleClick = (e: SyntheticEvent, action: ButtonActions) => {
     e.stopPropagation();
     onClickAction(action);
   };
@@ -53,7 +52,7 @@ const BackCardButtons = ({
       </button>
       <button
         className="btn-success btn hover:border-green-600 hover:bg-green-600"
-        onClick={(e) => handleClick(e, "done")}
+        onClick={(e) => handleClick(e, "correct")}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -102,8 +101,10 @@ const FrontCardButtons = () => (
 
 const CardFlipper = ({
   cardInfo: { imgUrl, audioUrl, back, deckCollectionId, front },
+  onActionClicked,
 }: {
   cardInfo: Card;
+  onActionClicked: (action: ButtonActions) => void;
 }) => {
   const [isFlipped, setFlip] = useState(false);
 
@@ -111,10 +112,6 @@ const CardFlipper = ({
     e.preventDefault();
     e.stopPropagation();
     setFlip(!isFlipped);
-  };
-
-  const handleActions = (action: BackButtonActon) => {
-    console.log(action);
   };
 
   const renderImg = () => (
@@ -135,7 +132,7 @@ const CardFlipper = ({
   return (
     <ReactCardFlip isFlipped={isFlipped} flipDirection="horizontal">
       <div
-        className="card w-96 bg-base-200 text-center shadow-xl"
+        className="card w-96 bg-base-100 text-center shadow-xl"
         onClick={flipCard}
       >
         <figure className="relative px-10 pt-10">{renderImg()}</figure>
@@ -146,7 +143,7 @@ const CardFlipper = ({
       </div>
 
       <div
-        className="card w-96 bg-base-200 text-center shadow-xl"
+        className="card w-96 bg-base-100 text-center shadow-xl"
         onClick={flipCard}
       >
         <figure className="relative px-10 pt-10">
@@ -157,7 +154,7 @@ const CardFlipper = ({
         </figure>
         <div className="card-body items-center text-center">
           {renderLabel(back)}
-          <BackCardButtons onClickAction={handleActions} />
+          <BackCardButtons onClickAction={onActionClicked} />
         </div>
       </div>
     </ReactCardFlip>

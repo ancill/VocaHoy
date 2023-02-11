@@ -19,10 +19,9 @@ const DeckCollectionCard = ({
 
   const handleCardClick = async () => {
     let sessionIdForRouter = data?.sessionId;
-    let isEnded = false; // TODO: Add check for ended session
 
     // If session is not exist or it's already ended create new one
-    if (!sessionIdForRouter || isEnded) {
+    if (!sessionIdForRouter) {
       const result = await createSessionMutation.mutateAsync({
         deckCollectionId: id,
       });
@@ -35,13 +34,9 @@ const DeckCollectionCard = ({
   };
 
   return (
-    <div className="card-compact card w-64 bg-base-100 text-white shadow-xl">
+    <div className="card bg-base-100 shadow-xl lg:card-side">
       <figure>
-        <img
-          src={imgUrl}
-          alt="car!"
-          className="bg-gradient-to-r from-primary to-accent"
-        />
+        <img src={imgUrl} alt="Collection" />
       </figure>
       <div className="card-body">
         <h2 className="card-title">{label}</h2>

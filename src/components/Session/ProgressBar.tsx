@@ -1,13 +1,10 @@
 import { useRouter } from "next/router";
-import {
-  NAVIGATION_CONFIGURATION,
-  NAVIGATION_ROUTES,
-} from "../../constants/navigation";
+import { NAVIGATION_ROUTES } from "../../constants/navigation";
 import { DeckSession } from "@prisma/client";
 
 const ProgressBar = ({
   deckLabel,
-  sessionInfo: { masteredCount, newCount, reviewCount, progressCount },
+  sessionInfo: { masteredCount, reviewCount },
 }: {
   sessionInfo: DeckSession;
   deckLabel: string;
@@ -38,7 +35,7 @@ const ProgressBar = ({
         </button>
         <div>
           <h3 className="text-xl normal-case">{deckLabel}</h3>
-          <span className="mr-4 text-base">{progressCount}</span>
+          <span className="mr-4 text-base">{masteredCount}</span>
           <progress
             className="progress progress-primary w-20"
             value="40"
@@ -49,7 +46,7 @@ const ProgressBar = ({
 
       <div className="navbar-end flex space-x-2">
         {[
-          { count: newCount, badge: "badge-primary" },
+          // { count: newCount, badge: "badge-primary" },
           { count: reviewCount, badge: "badge-accent" },
           { count: masteredCount, badge: "badge-success" },
         ].map((el) => (

@@ -1,6 +1,6 @@
 import { type AppType } from "next/app";
 import { type Session } from "next-auth";
-import { SessionProvider } from "next-auth/react";
+import { SessionProvider, useSession } from "next-auth/react";
 
 import { api } from "../utils/api";
 
@@ -11,6 +11,7 @@ import NavBottomBar from "../components/Navigation/NavBottomBar";
 import Head from "next/head";
 import NavBar from "../components/Navigation/NavBar";
 import { NAVIGATION_ROUTES } from "../constants/navigation";
+import LoginForm from "../components/User/LoginForm";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -20,21 +21,18 @@ const MyApp: AppType<{ session: Session | null }> = ({
   const router = useRouter();
   const changePage = (route: string) => {
     setActivePage(route);
-    router.push(route === NAVIGATION_ROUTES.stats ? "/" : route);
+    router.push(route);
   };
 
   return (
-    <main
-      data-theme="dracula"
-      className="h-screen bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400"
-    >
+    <main data-theme="dracula" className="h-screen bg-base-300">
       <Head>
-        <title>Blazingly fast</title>
+        <title>VocaHoy</title>
         <meta name="description" content="Fast vocabulary builder" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <SessionProvider session={session}>
-        <div className="container mx-auto py-4">
+        <div className="container mx-auto">
           <NavBar route={activePage} />
           <Component {...pageProps} />
           <NavBottomBar activePage={activePage} setActivePage={changePage} />
