@@ -48,14 +48,15 @@ model Session {
 }
 
 model User {
-    id            String              @id @default(cuid())
-    name          String?
-    email         String?             @unique
-    emailVerified DateTime?
-    image         String?
-    accounts      Account[]
-    sessions      Session[]
-    CardInterval  CardIntervalState[]
+    id                         String                       @id @default(cuid())
+    name                       String?
+    email                      String?                      @unique
+    emailVerified              DateTime?
+    image                      String?
+    accounts                   Account[]
+    sessions                   Session[]
+    PersonalCardReviewProgress PersonalCardReviewProgress[]
+    StudySession               StudySession[]
 }
 
 model VerificationToken {
@@ -80,40 +81,38 @@ model CardsCollection {
     category    CardCollectionCategory
     createdAt   DateTime               @default(now())
     updatedAt   DateTime               @updatedAt
-
-    cards Card[]
+    cards       Card[]
 }
 
 model Card {
-    id       String @id @default(cuid())
-    front    String
-    back     String
-    audioUrl String
-    imgUrl   String
-
-    cardInterval      CardIntervalState[]
-    CardsCollection   CardsCollection?    @relation(fields: [cardsCollectionId], references: [id])
+    id                String                       @id @default(cuid())
+    front             String
+    back              String
+    audioUrl          String
+    imgUrl            String
+    cardInterval      PersonalCardReviewProgress[]
+    CardsCollection   CardsCollection?             @relation(fields: [cardsCollectionId], references: [id])
     cardsCollectionId String?
 }
 
-model CardIntervalState {
-    id                 String            @id @default(cuid())
-    user               User              @relation(fields: [userId], references: [id])
-    interval           Int               @default(1)
-    nextReview         DateTime          @default(now()) @db.Date
-    card               Card              @relation(fields: [cardId], references: [id])
-    cardId             String
-    userId             String
-    CardStudySession   CardStudySession? @relation(fields: [cardStudySessionId], references: [id])
-    cardStudySessionId String?
+model PersonalCardReviewProgress {
+    id             String        @id @default(cuid())
+    user           User          @relation(fields: [userId], references: [id])
+    interval       Int           @default(1)
+    nextReview     DateTime      @default(now()) @db.Date
+    card           Card          @relation(fields: [cardId], references: [id])
+    cardId         String
+    userId         String
+    StudySession   StudySession? @relation(fields: [studySessionId], references: [id])
+    studySessionId String?
 }
 
-model CardStudySession {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    isSessionEnded Boolean @default(false)
-
-    cardsToStudy CardIntervalState[]
+model StudySession {
+    id             String                       @id @default(cuid())
+    createdAt      DateTime                     @default(now())
+    updatedAt      DateTime                     @updatedAt
+    user           User                         @relation(fields: [userId], references: [id])
+    isSessionEnded Boolean                      @default(false)
+    studyList      PersonalCardReviewProgress[]
+    userId         String
 }

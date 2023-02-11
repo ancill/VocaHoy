@@ -2,9 +2,9 @@ import { z } from "zod";
 
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 
-export const deckSession = createTRPCRouter({
+export const cardRouter = createTRPCRouter({
   getAllCardsForToday: protectedProcedure.query(({ ctx }) => {
-    return ctx.prisma.cardInterval.findFirst({
+    return ctx.prisma.cardIntervalState.findFirst({
       where: {
         userId: ctx.session.user.id,
         nextReview: {
