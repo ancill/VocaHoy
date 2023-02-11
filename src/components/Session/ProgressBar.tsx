@@ -1,14 +1,7 @@
 import { useRouter } from "next/router";
 import { NAVIGATION_ROUTES } from "../../constants/navigation";
-import { DeckSession } from "@prisma/client";
 
-const ProgressBar = ({
-  deckLabel,
-  sessionInfo: { masteredCount, reviewCount },
-}: {
-  sessionInfo: DeckSession;
-  deckLabel: string;
-}) => {
+const ProgressBar = ({ sessionId }: { sessionId: string }) => {
   const router = useRouter();
 
   return (

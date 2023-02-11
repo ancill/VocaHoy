@@ -7,20 +7,11 @@ import Loader from "../../components/Loader";
 
 const SessionPage = () => {
   const router = useRouter();
-
-  const { data, error, isLoading } =
-    api.deckSession.getSessionWithCollection.useQuery({
-      sessionId: (router.query.id as string) || "", // query.id on first render undefined
-    });
-
-  if (isLoading || !data) return <Loader />;
+  const sessionId = router.query.id as string;
   return (
     <div className="container mx-auto flex flex-col rounded-lg bg-base-200 pb-24">
-      <ProgressBar sessionInfo={data} deckLabel={data.deckCollection.label} />
-      <CardStack
-        cardCollection={data.deckCollection.cards}
-        currentSession={data}
-      />
+      <ProgressBar sessionId={sessionId} />
+      {/* <CardStack sessionId={sessionId} /> */}
     </div>
   );
 };

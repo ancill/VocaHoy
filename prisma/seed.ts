@@ -1,54 +1,37 @@
-import { DeckCategory } from "@prisma/client";
+import { Card } from "@prisma/client";
 import { prisma } from "../src/server/db";
+
+const mockData = (collectionId: string) =>
+  Array(200)
+    .fill(null)
+    .map((_, i) => {
+      return {
+        front: `question ${i}`,
+        back: `answer ${i}`,
+        imgUrl:
+          "https://daisyui.com/images/stock/photo-1559703248-dcaaec9fab78.jpg",
+        cardsCollectionId: collectionId,
+        audioUrl: "",
+      };
+    }) as Card[];
 
 async function main() {
   // deckCategory seed
-  const collection = await prisma.deckCollection.create({
+  const collection = await prisma.cardsCollection.create({
     data: {
       label: "Dev",
-      category: DeckCategory.PERSONAL,
+      category: "DEV",
       description: "Development collection",
       imgUrl:
         "https://daisyui.com/images/stock/photo-1601004890684-d8cbf643f5f2.jpg",
     },
   });
 
-  await prisma.card.createMany({
-    data: [
-      {
-        front: "reunir (v)",
-        back: "to put togerther, to get together [also juntar]",
-        imgUrl:
-          "https://daisyui.com/images/stock/photo-1559703248-dcaaec9fab78.jpg",
-        deckCollectionId: collection.id,
-        audioUrl: "",
-      },
-      {
-        front: "nadie (pron)",
-        back: "nobody, anybody",
-        imgUrl:
-          "https://daisyui.com/images/stock/photo-1559703248-dcaaec9fab78.jpg",
-        deckCollectionId: collection.id,
-        audioUrl: "",
-      },
-      {
-        front: "asunto",
-        back: "matter, issue, affair",
-        imgUrl:
-          "https://daisyui.com/images/stock/photo-1559703248-dcaaec9fab78.jpg",
-        deckCollectionId: collection.id,
-        audioUrl: "",
-      },
-      {
-        front: "which",
-        back: "cuál",
-        imgUrl:
-          "https://daisyui.com/images/stock/photo-1559703248-dcaaec9fab78.jpg",
-        deckCollectionId: collection.id,
-        audioUrl: "",
-      },
-    ],
+  const cards = await prisma.card.createMany({
+    data: mockData(collection.id),
   });
+
+  console.log("Created cards count:", cards.count);
 }
 main()
   .then(async () => {

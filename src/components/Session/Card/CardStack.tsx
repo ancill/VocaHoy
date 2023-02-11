@@ -5,13 +5,7 @@ import { api } from "../../../utils/api";
 
 export type ButtonActions = "correct" | "repeat";
 
-const CardStack = ({
-  cardCollection,
-  currentSession,
-}: {
-  cardCollection: Card[];
-  currentSession: DeckSession;
-}) => {
+const CardStack = ({ sessionId }: { sessionId: string }) => {
   const [flashcards, setFlashcards] = useState<Card[]>(cardCollection);
   const [reviewCount, setReviewCount] = useState(0);
   const [currentCard, setCurrentCard] = useState<Card | null>(null);

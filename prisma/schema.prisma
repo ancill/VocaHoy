@@ -48,14 +48,14 @@ model Session {
 }
 
 model User {
-    id            String        @id @default(cuid())
+    id            String              @id @default(cuid())
     name          String?
-    email         String?       @unique
+    email         String?             @unique
     emailVerified DateTime?
     image         String?
     accounts      Account[]
     sessions      Session[]
-    deckSessions  DeckSession[]
+    CardInterval  CardIntervalState[]
 }
 
 model VerificationToken {
@@ -66,45 +66,54 @@ model VerificationToken {
     @@unique([identifier, token])
 }
 
-enum DeckCategory {
+enum CardCollectionCategory {
     TOP_5000
     PERSONAL
+    DEV
 }
 
-model DeckCollection {
-    id           String        @id @default(cuid())
-    label        String
-    description  String
-    imgUrl       String
-    category     DeckCategory
-    cards        Card[]
-    deckSessions DeckSession[]
+model CardsCollection {
+    id          String                 @id @default(cuid())
+    label       String
+    description String
+    imgUrl      String
+    category    CardCollectionCategory
+    createdAt   DateTime               @default(now())
+    updatedAt   DateTime               @updatedAt
+
+    cards Card[]
 }
 
 model Card {
-    id                   String          @id @default(cuid())
-    front                String
-    back                 String
-    audioUrl             String
-    imgUrl               String
-    interval             Int             @default(1)
-    nextReview           DateTime        @default(now())
-    DeckCollection       DeckCollection? @relation(fields: [deckCollectionId], references: [id])
-    deckCollectionId     String?
-    DeckSession          DeckSession?    @relation(fields: [deckSessionSessionId], references: [sessionId])
-    deckSessionSessionId String?
+    id       String @id @default(cuid())
+    front    String
+    back     String
+    audioUrl String
+    imgUrl   String
+
+    cardInterval      CardIntervalState[]
+    CardsCollection   CardsCollection?    @relation(fields: [cardsCollectionId], references: [id])
+    cardsCollectionId String?
 }
 
-model DeckSession {
-    sessionId        String         @id @default(cuid())
-    createdAt        DateTime       @default(now())
-    updatedAt        DateTime       @updatedAt
-    isSessionEnded   Boolean        @default(false)
-    user             User           @relation(fields: [userId], references: [id])
-    userId           String
-    deckCollection   DeckCollection @relation(fields: [deckCollectionId], references: [id])
-    deckCollectionId String
-    sessionCards     Card[]
-    reviewCount      Int            @default(0)
-    masteredCount    Int            @default(0)
+model CardIntervalState {
+    id                 String            @id @default(cuid())
+    user               User              @relation(fields: [userId], references: [id])
+    interval           Int               @default(1)
+    nextReview         DateTime          @default(now()) @db.Date
+    card               Card              @relation(fields: [cardId], references: [id])
+    cardId             String
+    userId             String
+    CardStudySession   CardStudySession? @relation(fields: [cardStudySessionId], references: [id])
+    cardStudySessionId String?
+}
+
+model CardStudySession {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    isSessionEnded Boolean @default(false)
+
+    cardsToStudy CardIntervalState[]
 }
