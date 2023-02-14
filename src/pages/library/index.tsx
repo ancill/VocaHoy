@@ -1,11 +1,9 @@
 import Carousel from "../../components/Library/Carousel";
-import { useRouter } from "next/router";
 import { api } from "../../utils/api";
 import Loader from "../../components/Loader";
 
 function LibraryPage() {
-  const { query } = useRouter();
-  const { data, error, isLoading } = api.deck.getDeckCollection.useQuery();
+  const { data, error, isLoading } = api.cardsCollection.getCardsCollection.useQuery();
 
   if (isLoading || error) return <Loader />;
   return (

@@ -3,7 +3,7 @@ import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 
 export const studySession = createTRPCRouter({
-  getStudySession: protectedProcedure
+  getBySessionId: protectedProcedure
     .input(
       z.object({
         sessionId: z.string(),
@@ -15,15 +15,38 @@ export const studySession = createTRPCRouter({
           id: input.sessionId,
         },
         include: {
+          studyList: {
+            include: {
+              card: true,
+            },
+          },
+        },
+      });
+    }),
+  get: protectedProcedure
+    .input(
+      z.object({
+        cardsCollectionId: z.string(),
+        isSessionEnded: z.boolean(),
+      })
+    )
+    .query(({ ctx, input }) => {
+      return ctx.prisma.studySession.findFirst({
+        where: {
+          cardsCollectionId: input.cardsCollectionId,
+          userId: ctx.session.user.id,
+          isSessionEnded: input.isSessionEnded,
+        },
+        include: {
           studyList: true,
         },
       });
     }),
 
-  createStudySession: protectedProcedure
+  create: protectedProcedure
     .input(
       z.object({
-        deckCollectionId: z.string(),
+        cardsCollectionId: z.string(),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -33,7 +56,7 @@ export const studySession = createTRPCRouter({
           where: {
             userId: ctx.session.user.id,
             card: {
-              cardsCollectionId: input.deckCollectionId,
+              cardsCollectionId: input.cardsCollectionId,
             },
             nextReview: {
               gte: today,
@@ -42,10 +65,11 @@ export const studySession = createTRPCRouter({
           },
           take: 100,
         });
-
+      console.log(cardsForStudy);
       // create the deck session with the sessionCards field populated with the cards fetched above
       return ctx.prisma.studySession.create({
         data: {
+          cardsCollectionId: input.cardsCollectionId,
           studyList: {
             connect: cardsForStudy.map((card) => ({ id: card.id })),
           },
@@ -54,7 +78,7 @@ export const studySession = createTRPCRouter({
       });
     }),
 
-  updateStudySession: protectedProcedure
+  updateSessionAndCardReviewProgress: protectedProcedure
     .input(
       z.object({
         sessionId: z.string(),

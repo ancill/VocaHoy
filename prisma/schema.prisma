@@ -74,14 +74,15 @@ enum CardCollectionCategory {
 }
 
 model CardsCollection {
-    id          String                 @id @default(cuid())
-    label       String
-    description String
-    imgUrl      String
-    category    CardCollectionCategory
-    createdAt   DateTime               @default(now())
-    updatedAt   DateTime               @updatedAt
-    cards       Card[]
+    id           String                 @id @default(cuid())
+    label        String
+    description  String
+    imgUrl       String
+    category     CardCollectionCategory
+    createdAt    DateTime               @default(now())
+    updatedAt    DateTime               @updatedAt
+    cards        Card[]
+    StudySession StudySession[]
 }
 
 model Card {
@@ -108,11 +109,13 @@ model PersonalCardReviewProgress {
 }
 
 model StudySession {
-    id             String                       @id @default(cuid())
-    createdAt      DateTime                     @default(now())
-    updatedAt      DateTime                     @updatedAt
-    user           User                         @relation(fields: [userId], references: [id])
-    isSessionEnded Boolean                      @default(false)
-    studyList      PersonalCardReviewProgress[]
-    userId         String
+    id                String                       @id @default(cuid())
+    createdAt         DateTime                     @default(now())
+    updatedAt         DateTime                     @updatedAt
+    user              User                         @relation(fields: [userId], references: [id])
+    isSessionEnded    Boolean                      @default(false)
+    studyList         PersonalCardReviewProgress[]
+    cardsCollection   CardsCollection              @relation(fields: [cardsCollectionId], references: [id])
+    userId            String
+    cardsCollectionId String
 }

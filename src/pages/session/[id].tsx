@@ -10,8 +10,8 @@ const SessionPage = () => {
   const sessionId = router.query.id as string;
   return (
     <div className="container mx-auto flex flex-col rounded-lg bg-base-200 pb-24">
-      <ProgressBar sessionId={sessionId} />
-      {/* <CardStack sessionId={sessionId} /> */}
+      {/* <ProgressBar sessionId={sessionId} /> */}
+      <CardStack sessionId={sessionId} />
     </div>
   );
 };

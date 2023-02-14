@@ -1,4 +1,4 @@
-import { Card } from "@prisma/client";
+import { Card, PersonalCardReviewProgress } from "@prisma/client";
 import { useState, SyntheticEvent } from "react";
 import ReactCardFlip from "react-card-flip";
 import { ButtonActions } from "./CardStack";
@@ -100,7 +100,7 @@ const FrontCardButtons = () => (
 );
 
 const CardFlipper = ({
-  cardInfo: { imgUrl, audioUrl, back, deckCollectionId, front },
+  cardInfo: { imgUrl, audioUrl, back, front },
   onActionClicked,
 }: {
   cardInfo: Card;
