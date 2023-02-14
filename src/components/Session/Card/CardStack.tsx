@@ -6,14 +6,18 @@ import Loader from "../../Loader";
 
 export type ButtonActions = "correct" | "repeat";
 
-const CardStack = ({ sessionId }: { sessionId: string }) => {
-  const { data, isFetching, error } = api.studySession.getBySessionId.useQuery({
-    sessionId,
-  });
-
-  const flashcards = data?.studyList;
+const CardStack = ({
+  sessionFlashCards,
+  sessionId,
+}: {
+  sessionFlashCards: (PersonalCardReviewProgress & {
+    card: Card;
+  })[];
+  sessionId: string;
+}) => {
+  const [flashcards, setFlashcards] = useState(sessionFlashCards);
   const [reviewCount, setReviewCount] = useState(0);
-  const [currentCard, setCurrentCard] = useState();
+  const [currentCard, setCurrentCard] = useState(sessionFlashCards[0]);
 
   const updateSessionMutation =
     api.studySession.updateSessionAndCardReviewProgress.useMutation();
@@ -21,10 +25,11 @@ const CardStack = ({ sessionId }: { sessionId: string }) => {
   useEffect(() => {
     if (flashcards?.length === 0) return;
 
-    setCurrentCard(flashcards && flashcards[0]);
-  }, [flashcards, data]);
+    setCurrentCard(flashcards[0]);
+  }, [flashcards]);
 
   const getFlashCardsCopyAndUpdatedCard = (isCorrect: boolean) => {
+    const flashCardsCopy = [...flashcards];
     const updatedCard = {
       ...currentCard!,
       interval: isCorrect ? currentCard!.interval * 2 : 1,
@@ -45,12 +50,13 @@ const CardStack = ({ sessionId }: { sessionId: string }) => {
       isSessionEnded: false,
     };
 
-    return { updatedCard, mutationDto };
+    return { flashCardsCopy, updatedCard, mutationDto };
   };
 
   const handleRepeatAgain = () => {
     setReviewCount(reviewCount + 1);
-    const { updatedCard, mutationDto } = getFlashCardsCopyAndUpdatedCard(false);
+    const { flashCardsCopy, updatedCard, mutationDto } =
+      getFlashCardsCopyAndUpdatedCard(false);
 
     const middleIndex = Math.floor(flashcards.length / 2);
     flashCardsCopy.splice(middleIndex, 0, updatedCard);
