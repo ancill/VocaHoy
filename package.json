@@ -9,7 +9,7 @@
     "postinstall": "prisma generate",
     "lint": "next lint",
     "start": "next start",
-    "reset": "NODE_ENV=development prisma migrate reset",
+    "reset": "NODE_ENV=development npx prisma db push --force-reset && npx prisma db push && npm run db-seed",
     "db-seed": "NODE_ENV=development prisma db seed"
   },
   "prisma": {

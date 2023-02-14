@@ -1,7 +1,7 @@
-import { DeckCollection } from "@prisma/client";
+import { CardsCollection } from "@prisma/client";
 import DeckCollectionCard from "./DeckCollectionCard";
 
-const Carousel = ({ collections }: { collections: DeckCollection[] }) => {
+const Carousel = ({ collections }: { collections: CardsCollection[] }) => {
   return (
     <div className="carousel rounded-box space-x-4 p-4">
       {collections.map((el) => (

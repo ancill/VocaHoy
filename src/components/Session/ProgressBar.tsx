@@ -1,16 +1,12 @@
 import { useRouter } from "next/router";
 import { NAVIGATION_ROUTES } from "../../constants/navigation";
-import { DeckSession } from "@prisma/client";
+import { api } from "../../utils/api";
 
-const ProgressBar = ({
-  deckLabel,
-  sessionInfo: { masteredCount, reviewCount },
-}: {
-  sessionInfo: DeckSession;
-  deckLabel: string;
-}) => {
+const ProgressBar = ({ sessionId }: { sessionId: string }) => {
   const router = useRouter();
-
+  const { data, isFetching, error } = api.studySession.getById.useQuery({
+    sessionId,
+  });
   return (
     <div className="navbar rounded-lg bg-base-100 px-6">
       <div className="navbar-start flex">

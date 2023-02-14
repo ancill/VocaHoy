@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { NAVIGATION_ROUTES } from "../../constants/navigation";
-import { DeckCollection } from "@prisma/client";
+import { CardsCollection } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { api } from "../../utils/api";
 
@@ -10,23 +10,24 @@ const DeckCollectionCard = ({
   id,
   imgUrl,
   label,
-}: DeckCollection) => {
+}: CardsCollection) => {
   const router = useRouter();
-  const createSessionMutation = api.deckSession.createSession.useMutation();
-  const { data, isFetching, error } = api.deckSession.getSession.useQuery({
-    deckCollectionId: id,
+  const createSessionMutation = api.studySession.create.useMutation();
+  const { data, isFetching, error } = api.studySession.get.useQuery({
+    cardsCollectionId: id,
+    isSessionEnded: false,
   });
 
   const handleCardClick = async () => {
-    let sessionIdForRouter = data?.sessionId;
+    let sessionIdForRouter = data?.id;
 
     // If session is not exist or it's already ended create new one
     if (!sessionIdForRouter) {
       const result = await createSessionMutation.mutateAsync({
-        deckCollectionId: id,
+        cardsCollectionId: id,
       });
 
-      sessionIdForRouter = result.sessionId;
+      sessionIdForRouter = result.id;
     }
 
     // Redirect to dynamic page for each session

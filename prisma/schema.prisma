@@ -48,14 +48,15 @@ model Session {
 }
 
 model User {
-    id            String        @id @default(cuid())
-    name          String?
-    email         String?       @unique
-    emailVerified DateTime?
-    image         String?
-    accounts      Account[]
-    sessions      Session[]
-    deckSessions  DeckSession[]
+    id                         String                       @id @default(cuid())
+    name                       String?
+    email                      String?                      @unique
+    emailVerified              DateTime?
+    image                      String?
+    accounts                   Account[]
+    sessions                   Session[]
+    PersonalCardReviewProgress PersonalCardReviewProgress[]
+    StudySession               StudySession[]
 }
 
 model VerificationToken {
@@ -66,45 +67,55 @@ model VerificationToken {
     @@unique([identifier, token])
 }
 
-enum DeckCategory {
+enum CardCollectionCategory {
     TOP_5000
     PERSONAL
+    DEV
 }
 
-model DeckCollection {
-    id           String        @id @default(cuid())
+model CardsCollection {
+    id           String                 @id @default(cuid())
     label        String
     description  String
     imgUrl       String
-    category     DeckCategory
+    category     CardCollectionCategory
+    createdAt    DateTime               @default(now())
+    updatedAt    DateTime               @updatedAt
     cards        Card[]
-    deckSessions DeckSession[]
+    StudySession StudySession[]
 }
 
 model Card {
-    id                   String          @id @default(cuid())
-    front                String
-    back                 String
-    audioUrl             String
-    imgUrl               String
-    interval             Int             @default(1)
-    nextReview           DateTime        @default(now())
-    DeckCollection       DeckCollection? @relation(fields: [deckCollectionId], references: [id])
-    deckCollectionId     String?
-    DeckSession          DeckSession?    @relation(fields: [deckSessionSessionId], references: [sessionId])
-    deckSessionSessionId String?
+    id                String                       @id @default(cuid())
+    front             String
+    back              String
+    audioUrl          String
+    imgUrl            String
+    cardInterval      PersonalCardReviewProgress[]
+    CardsCollection   CardsCollection?             @relation(fields: [cardsCollectionId], references: [id])
+    cardsCollectionId String?
 }
 
-model DeckSession {
-    sessionId        String         @id @default(cuid())
-    createdAt        DateTime       @default(now())
-    updatedAt        DateTime       @updatedAt
-    isSessionEnded   Boolean        @default(false)
-    user             User           @relation(fields: [userId], references: [id])
-    userId           String
-    deckCollection   DeckCollection @relation(fields: [deckCollectionId], references: [id])
-    deckCollectionId String
-    sessionCards     Card[]
-    reviewCount      Int            @default(0)
-    masteredCount    Int            @default(0)
+model PersonalCardReviewProgress {
+    id             String        @id @default(cuid())
+    user           User          @relation(fields: [userId], references: [id])
+    interval       Int           @default(1)
+    nextReview     DateTime      @default(now()) @db.Date
+    card           Card          @relation(fields: [cardId], references: [id])
+    cardId         String
+    userId         String
+    StudySession   StudySession? @relation(fields: [studySessionId], references: [id])
+    studySessionId String?
+}
+
+model StudySession {
+    id                String                       @id @default(cuid())
+    createdAt         DateTime                     @default(now())
+    updatedAt         DateTime                     @updatedAt
+    user              User                         @relation(fields: [userId], references: [id])
+    isSessionEnded    Boolean                      @default(false)
+    studyList         PersonalCardReviewProgress[]
+    cardsCollection   CardsCollection              @relation(fields: [cardsCollectionId], references: [id])
+    userId            String
+    cardsCollectionId String
 }
