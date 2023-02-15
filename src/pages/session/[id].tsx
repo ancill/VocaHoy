@@ -12,7 +12,7 @@ const SessionPage = () => {
     sessionId,
   });
 
-  if (!data || isFetching) {
+  if (!data?.studyList || isFetching) {
     return <Loader />;
   }
 

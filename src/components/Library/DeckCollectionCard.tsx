@@ -13,10 +13,11 @@ const DeckCollectionCard = ({
 }: CardsCollection) => {
   const router = useRouter();
   const createSessionMutation = api.studySession.create.useMutation();
-  const { data, isFetching, error } = api.studySession.get.useQuery({
-    cardsCollectionId: id,
-    isSessionEnded: false,
-  });
+  const { data, isFetching, error } =
+    api.studySession.getByCollectionId.useQuery({
+      cardsCollectionId: id,
+      isSessionEnded: false,
+    });
 
   const handleCardClick = async () => {
     let sessionIdForRouter = data?.id;

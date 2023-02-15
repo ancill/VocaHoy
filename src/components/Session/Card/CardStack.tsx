@@ -18,12 +18,17 @@ const CardStack = ({
   const [flashcards, setFlashcards] = useState(sessionFlashCards);
   const [reviewCount, setReviewCount] = useState(0);
   const [currentCard, setCurrentCard] = useState(sessionFlashCards[0]);
-
   const updateSessionMutation =
     api.studySession.updateSessionAndCardReviewProgress.useMutation();
+  const closeSessionMutation = api.studySession.closeSession.useMutation();
 
   useEffect(() => {
-    if (flashcards?.length === 0) return;
+    if (flashcards?.length === 0) {
+      closeSessionMutation.mutate({
+        sessionId: sessionId,
+      });
+      return;
+    }
 
     setCurrentCard(flashcards[0]);
   }, [flashcards]);

@@ -23,7 +23,7 @@ export const studySession = createTRPCRouter({
         },
       });
     }),
-  get: protectedProcedure
+  getByCollectionId: protectedProcedure
     .input(
       z.object({
         cardsCollectionId: z.string(),
@@ -47,24 +47,47 @@ export const studySession = createTRPCRouter({
     .input(
       z.object({
         cardsCollectionId: z.string(),
+        cardLimitPerSession: z.number()
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const today = new Date();
+      const tomorrow = new Date(); // The Date object returns today's timestamp
+      tomorrow.setDate(tomorrow.getDate() + 1);
+
+
+
+      const cardsFromCollection = await ctx.prisma.cardsCollection.findMany({
+        where: {
+          id: input.cardsCollectionId,
+        },
+        select: {
+          cards: {
+            take: input.cardLimitPerSession
+          }
+        },
+        
+      })
+
       const cardsForStudy =
-        await ctx.prisma.personalCardReviewProgress.findMany({
-          where: {
-            userId: ctx.session.user.id,
-            card: {
-              cardsCollectionId: input.cardsCollectionId,
-            },
-            nextReview: {
-              gte: today,
-              lt: today,
-            },
-          },
-          take: 100,
+        await ctx.prisma.personalCardReviewProgress.createMany({
+        data: {
+          cardId: 
+        }
         });
+
+      // const cardsForStudy =
+      //   await ctx.prisma.personalCardReviewProgress.findMany({
+      //     where: {
+      //       userId: ctx.session.user.id,
+      //       card: {
+      //         cardsCollectionId: input.cardsCollectionId,
+      //       },
+      //       nextReview: {
+      //         lt: tomorrow,
+      //       },
+      //     },
+      //     take: 100,
+      //   });
       console.log(cardsForStudy);
       // create the deck session with the sessionCards field populated with the cards fetched above
       return ctx.prisma.studySession.create({
@@ -104,6 +127,23 @@ export const studySession = createTRPCRouter({
         },
         data: {
           isSessionEnded: input.isSessionEnded,
+        },
+      });
+    }),
+
+  closeSession: protectedProcedure
+    .input(
+      z.object({
+        sessionId: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.prisma.studySession.update({
+        where: {
+          id: input.sessionId,
+        },
+        data: {
+          isSessionEnded: true,
         },
       });
     }),
