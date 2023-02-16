@@ -3,21 +3,9 @@ import CardFlipper from "./CardFlipper";
 import { useEffect, useState } from "react";
 import { api } from "../../../utils/api";
 import Loader from "../../Loader";
+import ShadowCards from "./ShadowCards";
 
 export type ButtonActions = "correct" | "repeat";
-
-const ShadowCards = ({}) => {
-  return (
-    <>
-      {new Array(3).fill(null).map((_, i) => (
-        <div key={i} className="card w-96 bg-base-100 text-center shadow-xl">
-          <div className="card-body h-80"></div>
-          <div className="card-body h-80"></div>
-        </div>
-      ))}
-    </>
-  );
-};
 
 const CardStack = ({
   studyList,

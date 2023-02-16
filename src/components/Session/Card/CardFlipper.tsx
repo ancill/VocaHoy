@@ -1,5 +1,5 @@
-import { Card, PersonalCardReviewProgress } from "@prisma/client";
-import { useState, SyntheticEvent } from "react";
+import { Card } from "@prisma/client";
+import { useState, SyntheticEvent, useEffect } from "react";
 import ReactCardFlip from "react-card-flip";
 import { ButtonActions } from "./CardStack";
 
@@ -108,10 +108,20 @@ const CardFlipper = ({
 }) => {
   const [isFlipped, setFlip] = useState(false);
 
-  const flipCard = (e: SyntheticEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
+  const flipCard = (e?: SyntheticEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
     setFlip(!isFlipped);
+  };
+
+  const onClickAction = async (action: ButtonActions) => {
+    flipCard();
+    // delay for animation and next question
+    await new Promise((f) => setTimeout(f, 100));
+    onActionClicked(action);
   };
 
   const renderImg = () => (
@@ -154,7 +164,7 @@ const CardFlipper = ({
         </figure>
         <div className="card-body items-center text-center">
           {renderLabel(back)}
-          <BackCardButtons onClickAction={onActionClicked} />
+          <BackCardButtons onClickAction={onClickAction} />
         </div>
       </div>
     </ReactCardFlip>
