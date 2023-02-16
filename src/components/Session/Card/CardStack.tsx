@@ -7,26 +7,23 @@ import Loader from "../../Loader";
 export type ButtonActions = "correct" | "repeat";
 
 const CardStack = ({
-  sessionFlashCards,
+  studyList,
   sessionId,
 }: {
-  sessionFlashCards: (PersonalCardReviewProgress & {
-    card: Card;
-  })[];
+  studyList: Card[];
   sessionId: string;
 }) => {
-  const [flashcards, setFlashcards] = useState(sessionFlashCards);
+  const [flashcards, setFlashcards] = useState(studyList);
   const [reviewCount, setReviewCount] = useState(0);
-  const [currentCard, setCurrentCard] = useState(sessionFlashCards[0]);
-  const updateSessionMutation =
-    api.studySession.updateSessionAndCardReviewProgress.useMutation();
+  const [currentCard, setCurrentCard] = useState(studyList[0]);
+
   const closeSessionMutation = api.studySession.closeSession.useMutation();
 
   useEffect(() => {
     if (flashcards?.length === 0) {
-      closeSessionMutation.mutate({
-        sessionId: sessionId,
-      });
+      // closeSessionMutation.mutate({
+      //   sessionId: sessionId,
+      // });
       return;
     }
 
@@ -68,7 +65,7 @@ const CardStack = ({
     flashCardsCopy.shift();
 
     setFlashcards(flashCardsCopy);
-    updateSessionMutation.mutateAsync(mutationDto);
+    //updateSessionMutation.mutateAsync(mutationDto);
   };
 
   const handleCorrect = () => {
@@ -77,7 +74,7 @@ const CardStack = ({
 
     flashCardsCopy.shift();
     setFlashcards(flashCardsCopy);
-    updateSessionMutation.mutateAsync(mutationDto);
+    // updateSessionMutation.mutateAsync(mutationDto);
   };
 
   const handleActions = (action: ButtonActions) => {
@@ -99,11 +96,7 @@ const CardStack = ({
   return (
     <div className="mt-5 flex flex-col items-center">
       <div className="stack">
-        {flashcards.map((card) => (
-          <div key={card.id}>
-            <CardFlipper cardInfo={card.card} onActionClicked={handleActions} />
-          </div>
-        ))}
+        <CardFlipper cardInfo={currentCard} onActionClicked={handleActions} />
       </div>
     </div>
   );

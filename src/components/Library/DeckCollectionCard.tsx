@@ -25,6 +25,7 @@ const DeckCollectionCard = ({
     // If session is not exist or it's already ended create new one
     if (!sessionIdForRouter) {
       const result = await createSessionMutation.mutateAsync({
+        cardLimitPerSession: 20,
         cardsCollectionId: id,
       });
 

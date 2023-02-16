@@ -19,7 +19,7 @@ const SessionPage = () => {
   return (
     <div className="container mx-auto flex flex-col rounded-lg bg-base-200 pb-24">
       {/* <ProgressBar sessionId={sessionId} /> */}
-      <CardStack sessionFlashCards={data.studyList} sessionId={sessionId} />
+      <CardStack studyList={data.studyList} sessionId={sessionId} />
     </div>
   );
 };

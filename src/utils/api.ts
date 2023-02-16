@@ -12,6 +12,13 @@ import superjson from "superjson";
 
 import { type AppRouter } from "../server/api/root";
 
+export const getTomorrow = () => {
+  const tomorrow = new Date();
+  tomorrow.setHours(24, 0, 0, 0);
+
+  return tomorrow;
+};
+
 const getBaseUrl = () => {
   if (typeof window !== "undefined") return ""; // browser should use relative url
   if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`; // SSR should use vercel url
