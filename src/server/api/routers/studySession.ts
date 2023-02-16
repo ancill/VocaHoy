@@ -15,11 +15,7 @@ export const studySession = createTRPCRouter({
           id: input.sessionId,
         },
         include: {
-          studyList: {
-            include: {
-              card: true,
-            },
-          },
+          studyList: true,
         },
       });
     }),
@@ -47,56 +43,36 @@ export const studySession = createTRPCRouter({
     .input(
       z.object({
         cardsCollectionId: z.string(),
-        cardLimitPerSession: z.number()
+        cardLimitPerSession: z.number(),
       })
     )
     .mutation(async ({ ctx, input }) => {
       const tomorrow = new Date(); // The Date object returns today's timestamp
       tomorrow.setDate(tomorrow.getDate() + 1);
 
-
-
-      const cardsFromCollection = await ctx.prisma.cardsCollection.findMany({
+      // Session started by collecting cards from main collection and put them in review
+      // Then populate session card collection by that cards
+      const cardsFromCollection = await ctx.prisma.card.findMany({
         where: {
           id: input.cardsCollectionId,
         },
-        select: {
-          cards: {
-            take: input.cardLimitPerSession
-          }
-        },
-        
-      })
+        take: input.cardLimitPerSession,
+      });
 
-      const cardsForStudy =
-        await ctx.prisma.personalCardReviewProgress.createMany({
-        data: {
-          cardId: 
-        }
-        });
-
-      // const cardsForStudy =
-      //   await ctx.prisma.personalCardReviewProgress.findMany({
-      //     where: {
-      //       userId: ctx.session.user.id,
-      //       card: {
-      //         cardsCollectionId: input.cardsCollectionId,
-      //       },
-      //       nextReview: {
-      //         lt: tomorrow,
-      //       },
-      //     },
-      //     take: 100,
-      //   });
-      console.log(cardsForStudy);
       // create the deck session with the sessionCards field populated with the cards fetched above
       return ctx.prisma.studySession.create({
         data: {
           cardsCollectionId: input.cardsCollectionId,
           studyList: {
-            connect: cardsForStudy.map((card) => ({ id: card.id })),
+            createMany: {
+              data: cardsFromCollection,
+            },
           },
-          userId: ctx.session.user.id,
+
+          expires: new Date(),
+        },
+        include: {
+          studyList: true,
         },
       });
     }),
