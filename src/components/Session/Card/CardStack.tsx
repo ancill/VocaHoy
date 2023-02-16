@@ -1,10 +1,23 @@
-import { Card, PersonalCardReviewProgress } from "@prisma/client";
+import { Card } from "@prisma/client";
 import CardFlipper from "./CardFlipper";
 import { useEffect, useState } from "react";
 import { api } from "../../../utils/api";
 import Loader from "../../Loader";
 
 export type ButtonActions = "correct" | "repeat";
+
+const ShadowCards = ({}) => {
+  return (
+    <>
+      {new Array(3).fill(null).map((_, i) => (
+        <div key={i} className="card w-96 bg-base-100 text-center shadow-xl">
+          <div className="card-body h-80"></div>
+          <div className="card-body h-80"></div>
+        </div>
+      ))}
+    </>
+  );
+};
 
 const CardStack = ({
   studyList,
@@ -96,7 +109,10 @@ const CardStack = ({
   return (
     <div className="mt-5 flex flex-col items-center">
       <div className="stack">
-        <CardFlipper cardInfo={currentCard} onActionClicked={handleActions} />
+        <div>
+          <CardFlipper cardInfo={currentCard} onActionClicked={handleActions} />
+        </div>
+        <ShadowCards />
       </div>
     </div>
   );
