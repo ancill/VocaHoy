@@ -25,7 +25,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
   };
 
   return (
-    <main data-theme="dracula" className="h-screen bg-base-300">
+    <main data-theme="dracula" className="h-max min-h-screen bg-base-300">
       <Head>
         <title>VocaHoy</title>
         <meta name="description" content="Fast vocabulary builder" />

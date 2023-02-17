@@ -1,4 +1,4 @@
-const ShadowCards = ({}) => {
+export const ShadowCards = ({}) => {
   return (
     <>
       {new Array(3).fill(null).map((_, i) => (
@@ -11,4 +11,11 @@ const ShadowCards = ({}) => {
   );
 };
 
-export default ShadowCards;
+export const BlankCard = () => {
+  return (
+    <div className="card w-96 bg-base-100 text-center shadow-xl">
+      <div className="card-body h-80"> NO CARDS FOR REVIEW</div>
+      <div className="card-body h-80"></div>
+    </div>
+  );
+};

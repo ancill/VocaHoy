@@ -16,7 +16,14 @@ export const studySession = createTRPCRouter({
           id: input.sessionId,
         },
         include: {
-          studyList: true,
+          studyList: {
+            where: {
+              nextReview: {
+                lt: getTomorrow(),
+              },
+            },
+          },
+          cardsCollection: true,
         },
       });
     }),
@@ -48,13 +55,6 @@ export const studySession = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const tomorrow = new Date(); // The Date object returns today's timestamp
-      tomorrow.setDate(tomorrow.getDate() + 1);
-
-      // Session started by collecting cards from main collection and put them in review
-      // Then populate session card collection by that cards
-
-      // create the deck session with the sessionCards field populated with the cards fetched above
       const session = await ctx.prisma.studySession.create({
         data: {
           cardsCollectionId: input.cardsCollectionId,
@@ -63,7 +63,7 @@ export const studySession = createTRPCRouter({
         },
       });
 
-      const cardsFromCollection = await ctx.prisma.card.updateMany({
+      await ctx.prisma.card.updateMany({
         where: {
           cardsCollectionId: input.cardsCollectionId,
         },
@@ -82,26 +82,35 @@ export const studySession = createTRPCRouter({
       });
     }),
 
-  // updateSessionAndCardReviewProgress: protectedProcedure
-  //   .input(
-  //     z.object({
-  //       sessionId: z.string(),
-  //       nextReview: z.date(),
-  //       interval: z.number(),
-  //     })
-  //   )
-  //   .mutation(async ({ ctx, input }) => {
-  //     return ctx.prisma.studySession.update({
-  //       where: {
-  //         id: input.sessionId,
-  //       },
-  //       data: {
-  //         studyList: {
-  //           update: {},
-  //         },
-  //       },
-  //     });
-  //   }),
+  updateSessionCard: protectedProcedure
+    .input(
+      z.object({
+        sessionId: z.string(),
+        cardId: z.string(),
+        nextReview: z.date(),
+        interval: z.number(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.prisma.studySession.update({
+        where: {
+          id: input.sessionId,
+        },
+        data: {
+          studyList: {
+            update: {
+              data: {
+                interval: input.interval,
+                nextReview: input.nextReview,
+              },
+              where: {
+                id: input.cardId,
+              },
+            },
+          },
+        },
+      });
+    }),
 
   closeSession: protectedProcedure
     .input(

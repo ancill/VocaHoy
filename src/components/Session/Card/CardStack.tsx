@@ -2,99 +2,80 @@ import { Card } from "@prisma/client";
 import CardFlipper from "./CardFlipper";
 import { useEffect, useState } from "react";
 import { api } from "../../../utils/api";
-import Loader from "../../Loader";
-import ShadowCards from "./ShadowCards";
+import { BlankCard, ShadowCards } from "./ShadowCards";
+import { SessionProgress } from "../../../pages/session/[id]";
 
 export type ButtonActions = "correct" | "repeat";
+
+const getUpdatedCard = (currentCard: Card, isCorrect: boolean) => {
+  const interval = isCorrect ? currentCard!.interval * 2 : 1;
+  const updatedCard = {
+    ...currentCard!,
+    interval: interval,
+    nextReview: new Date(new Date().getTime() + interval * 24 * 60 * 60 * 1000),
+  };
+
+  return updatedCard;
+};
 
 const CardStack = ({
   studyList,
   sessionId,
+  setSessionProgress,
+  sessionProgress,
 }: {
   studyList: Card[];
   sessionId: string;
+  sessionProgress: SessionProgress;
+  setSessionProgress: (sessionProgress: SessionProgress) => void;
 }) => {
   const [flashcards, setFlashcards] = useState(studyList);
   const [reviewCount, setReviewCount] = useState(0);
   const [currentCard, setCurrentCard] = useState(studyList[0]);
-
-  const closeSessionMutation = api.studySession.closeSession.useMutation();
+  const updateSessionCard = api.studySession.updateSessionCard.useMutation();
 
   useEffect(() => {
     if (flashcards?.length === 0) {
-      // closeSessionMutation.mutate({
-      //   sessionId: sessionId,
-      // });
       return;
     }
 
     setCurrentCard(flashcards[0]);
   }, [flashcards]);
 
-  const getFlashCardsCopyAndUpdatedCard = (isCorrect: boolean) => {
-    const flashCardsCopy = [...flashcards];
-    const updatedCard = {
-      ...currentCard!,
-      interval: isCorrect ? currentCard!.interval * 2 : 1,
-      nextReview: new Date(
-        new Date().getTime() + currentCard!.interval * 24 * 60 * 60 * 1000
-      ),
-    };
-
-    const mutationDto: {
-      sessionId: string;
-      interval: number;
-      nextReview: Date;
-      isSessionEnded: boolean;
-    } = {
-      sessionId: sessionId,
-      nextReview: updatedCard.nextReview,
-      interval: updatedCard.interval,
-      isSessionEnded: false,
-    };
-
-    return { flashCardsCopy, updatedCard, mutationDto };
-  };
-
-  const handleRepeatAgain = () => {
-    setReviewCount(reviewCount + 1);
-    const { flashCardsCopy, updatedCard, mutationDto } =
-      getFlashCardsCopyAndUpdatedCard(false);
-
-    const middleIndex = Math.floor(flashcards.length / 2);
-    flashCardsCopy.splice(middleIndex, 0, updatedCard);
-    flashCardsCopy.shift();
-
-    setFlashcards(flashCardsCopy);
-    //updateSessionMutation.mutateAsync(mutationDto);
-  };
-
-  const handleCorrect = () => {
-    const { flashCardsCopy, mutationDto } =
-      getFlashCardsCopyAndUpdatedCard(true);
-
-    flashCardsCopy.shift();
-    setFlashcards(flashCardsCopy);
-    // updateSessionMutation.mutateAsync(mutationDto);
-  };
-
   const handleActions = (action: ButtonActions) => {
-    action === "correct" && handleCorrect();
-    action === "repeat" && handleRepeatAgain();
+    const updatedCard = getUpdatedCard(currentCard!, action === "correct");
+    const flashCardsCopy = [...flashcards];
+
+    if (action === "correct") {
+      setSessionProgress({
+        masteredCount: sessionProgress.masteredCount + 1,
+        reviewCount: sessionProgress.reviewCount,
+        cardsCount: sessionProgress.cardsCount - 1,
+      });
+      flashCardsCopy.shift();
+    }
+    if (action === "repeat") {
+      setSessionProgress({
+        masteredCount: sessionProgress.masteredCount,
+        reviewCount: sessionProgress.reviewCount + 1,
+        cardsCount: sessionProgress.cardsCount,
+      });
+      const middleIndex = Math.floor(flashcards.length / 2);
+      flashCardsCopy.splice(middleIndex, 0, updatedCard);
+      flashCardsCopy.shift();
+    }
+
+    setFlashcards(flashCardsCopy);
+
+    updateSessionCard.mutateAsync({
+      cardId: updatedCard.id,
+      interval: updatedCard.interval,
+      nextReview: updatedCard.nextReview,
+      sessionId: sessionId,
+    });
   };
 
-  if (!currentCard)
-    return (
-      <div className="mt-5 flex flex-col items-center">
-        <div className="card w-96 bg-base-100 text-center shadow-xl">
-          <div className="card-body items-center text-center">
-            NO CARDS FOR REVIEW
-          </div>
-        </div>
-      </div>
-    );
-
-  return (
+  return currentCard ? (
     <div className="mt-5 flex flex-col items-center">
       <div className="stack">
         <div>
@@ -103,6 +84,8 @@ const CardStack = ({
         <ShadowCards />
       </div>
     </div>
+  ) : (
+    <BlankCard />
   );
 };
 

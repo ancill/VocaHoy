@@ -1,12 +1,14 @@
 import { useRouter } from "next/router";
 import { NAVIGATION_ROUTES } from "../../constants/navigation";
-import { api } from "../../utils/api";
+import { SessionProgress } from "../../pages/session/[id]";
 
-const ProgressBar = ({ sessionId }: { sessionId: string }) => {
+const ProgressBar = ({
+  barInfo: { deckLabel, masteredCount, reviewCount, cardsCount },
+}: {
+  barInfo: SessionProgress & { deckLabel: string };
+}) => {
   const router = useRouter();
-  const { data, isFetching, error } = api.studySession.getById.useQuery({
-    sessionId,
-  });
+
   return (
     <div className="navbar rounded-lg bg-base-100 px-6">
       <div className="navbar-start flex">
@@ -34,9 +36,10 @@ const ProgressBar = ({ sessionId }: { sessionId: string }) => {
           <span className="mr-4 text-base">{masteredCount}</span>
           <progress
             className="progress progress-primary w-20"
-            value="40"
-            max="100"
+            value={masteredCount}
+            max={cardsCount}
           ></progress>
+          <span className="mr-4 text-base">{cardsCount}</span>
         </div>
       </div>
 
