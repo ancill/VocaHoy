@@ -1,16 +1,10 @@
 import React, { useState } from "react";
 import useWindowSize from "../../hooks/useWindowSize";
 import { NAVIGATION_CONFIGURATION } from "../../constants/navigation";
+import { useActivePageHook } from "../../hooks/useActivePage";
 
-const NavBottomBar = ({
-  setActivePage,
-  activePage,
-}: {
-  setActivePage: (route: string) => void;
-  activePage: string;
-}) => {
-  const [active, setActive] = useState();
-  const [isMobile, setMobile] = useState();
+const NavBottomBar = ({}) => {
+  const { activePage, changePage } = useActivePageHook();
   const size = useWindowSize();
 
   if (size?.width > 1024) {
@@ -23,7 +17,7 @@ const NavBottomBar = ({
         <button
           key={el.title}
           className={`text-primary ${activePage === el.route ? "active" : ""}`}
-          onClick={() => setActivePage(el.route)}
+          onClick={() => changePage(el.route)}
         >
           {el.title}
           {el.icon()}

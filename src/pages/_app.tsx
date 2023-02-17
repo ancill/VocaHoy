@@ -17,13 +17,6 @@ const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
 }) => {
-  const [activePage, setActivePage] = useState(NAVIGATION_ROUTES.lib);
-  const router = useRouter();
-  const changePage = (route: string) => {
-    setActivePage(route);
-    router.push(route);
-  };
-
   return (
     <main data-theme="dracula" className="h-max min-h-screen bg-base-300">
       <Head>
@@ -33,9 +26,9 @@ const MyApp: AppType<{ session: Session | null }> = ({
       </Head>
       <SessionProvider session={session}>
         <div className="container mx-auto">
-          <NavBar route={activePage} />
+          <NavBar />
           <Component {...pageProps} />
-          <NavBottomBar activePage={activePage} setActivePage={changePage} />
+          <NavBottomBar />
         </div>
       </SessionProvider>
     </main>

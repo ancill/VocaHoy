@@ -1,5 +1,6 @@
 import { collectionRouter } from "./routers/collection";
 import { studySession } from "./routers/studySession";
+import { usersRouter } from "./routers/users";
 import { createTRPCRouter } from "./trpc";
 
 /**
@@ -10,6 +11,7 @@ import { createTRPCRouter } from "./trpc";
 export const appRouter = createTRPCRouter({
   cardsCollection: collectionRouter,
   studySession: studySession,
+  users: usersRouter,
 });
 
 // export type definition of API
