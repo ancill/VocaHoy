@@ -13,7 +13,6 @@ const NavBar = () => {
   if (size?.width < 1024) {
     return null;
   }
-  1;
 
   const getRouterForTitle = () => {
     return activePage?.split("/")[1]?.toUpperCase();
