@@ -7,12 +7,16 @@ import { SessionProgress } from "../../../pages/session/[id]";
 
 export type ButtonActions = "correct" | "repeat";
 
-const getUpdatedCard = (currentCard: Card, isCorrect: boolean) => {
-  const interval = isCorrect ? currentCard!.interval * 2 : 1;
+// Updated card with Space Repetition algorithm
+const getUpdatedCardWithSRA = (currentCard: Card, isCorrect: boolean) => {
+  const interval = isCorrect ? currentCard.interval * 2 : 1;
+  const nextReview = new Date(
+    new Date().getTime() + interval * 24 * 60 * 60 * 1000
+  );
   const updatedCard = {
-    ...currentCard!,
+    ...currentCard,
     interval: interval,
-    nextReview: new Date(new Date().getTime() + interval * 24 * 60 * 60 * 1000),
+    nextReview: isCorrect ? nextReview : currentCard.nextReview,
   };
 
   return updatedCard;
@@ -21,18 +25,17 @@ const getUpdatedCard = (currentCard: Card, isCorrect: boolean) => {
 const CardStack = ({
   studyList,
   sessionId,
-  setSessionProgress,
-  sessionProgress,
+  sessionState: { sessionProgress, setSessionProgress },
 }: {
   studyList: Card[];
   sessionId: string;
-  sessionProgress: SessionProgress;
-  setSessionProgress: (sessionProgress: SessionProgress) => void;
+  sessionState: {
+    sessionProgress: SessionProgress;
+    setSessionProgress: (sessionProgress: SessionProgress) => void;
+  };
 }) => {
   const [flashcards, setFlashcards] = useState(studyList);
-  const [reviewCount, setReviewCount] = useState(0);
   const [currentCard, setCurrentCard] = useState(studyList[0]);
-  const updateSessionCard = api.studySession.updateSessionCard.useMutation();
 
   useEffect(() => {
     if (flashcards?.length === 0) {
@@ -43,14 +46,24 @@ const CardStack = ({
   }, [flashcards]);
 
   const handleActions = (action: ButtonActions) => {
-    const updatedCard = getUpdatedCard(currentCard!, action === "correct");
+    const updatedCard = getUpdatedCardWithSRA(
+      currentCard!,
+      action === "correct"
+    );
     const flashCardsCopy = [...flashcards];
+    const sessionCardUpdateData = {
+      cardId: updatedCard.id,
+      interval: updatedCard.interval,
+      nextReview: updatedCard.nextReview,
+      sessionId: sessionId,
+    };
 
     if (action === "correct") {
       setSessionProgress({
         masteredCount: sessionProgress.masteredCount + 1,
         reviewCount: sessionProgress.reviewCount,
         cardsCount: sessionProgress.cardsCount - 1,
+        ...sessionCardUpdateData,
       });
       flashCardsCopy.shift();
     }
@@ -59,6 +72,7 @@ const CardStack = ({
         masteredCount: sessionProgress.masteredCount,
         reviewCount: sessionProgress.reviewCount + 1,
         cardsCount: sessionProgress.cardsCount,
+        ...sessionCardUpdateData,
       });
       const middleIndex = Math.floor(flashcards.length / 2);
       flashCardsCopy.splice(middleIndex, 0, updatedCard);
@@ -66,13 +80,6 @@ const CardStack = ({
     }
 
     setFlashcards(flashCardsCopy);
-
-    updateSessionCard.mutateAsync({
-      cardId: updatedCard.id,
-      interval: updatedCard.interval,
-      nextReview: updatedCard.nextReview,
-      sessionId: sessionId,
-    });
   };
 
   return currentCard ? (
