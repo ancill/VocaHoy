@@ -6,16 +6,20 @@ import { useEffect, useState } from "react";
 import Loader from "../../components/Loader";
 
 export interface SessionProgress {
-  masteredCount: number;
-  reviewCount: number;
-  cardsCount: number;
-  interval: number;
-  nextReview: Date;
-  sessionId: string;
-  cardId: string;
+  sessionCounters: {
+    masteredCount: number;
+    reviewCount: number;
+    cardsCount: number;
+  };
+  cardInfo: {
+    interval: number;
+    nextReview: Date;
+    sessionId: string;
+    cardId: string;
+  };
 }
 
-const sessionProgressInitState = {
+const sessionProgressInitState: SessionProgress = {
   sessionCounters: {
     masteredCount: 0,
     reviewCount: 0,
@@ -42,7 +46,10 @@ const SessionPage = () => {
   useEffect(() => {
     setSessionProgress({
       ...sessionProgress,
-      cardsCount: data?.studyList.length || 0,
+      sessionCounters: {
+        ...sessionProgress.sessionCounters,
+        cardsCount: data?.studyList.length || 0,
+      },
     });
     updateSessionCard.mutate();
   }, [data]);
