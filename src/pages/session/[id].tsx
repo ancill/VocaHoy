@@ -51,7 +51,9 @@ const SessionPage = () => {
         cardsCount: data?.studyList.length || 0,
       },
     });
-    updateSessionCard.mutate();
+    updateSessionCard.mutate({
+      ...sessionProgress.cardInfo,
+    });
   }, [data]);
 
   if (!data?.studyList || isFetching) {
