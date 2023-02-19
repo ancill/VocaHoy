@@ -40,6 +40,7 @@ const SessionPage = () => {
       ...sessionProgress,
       cardsCount: data?.studyList.length || 0,
     });
+    updateSessionCard.mutate();
   }, [data]);
 
   if (!data?.studyList || isFetching) {
