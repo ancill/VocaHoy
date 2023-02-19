@@ -24,6 +24,7 @@ export const studySession = createTRPCRouter({
             },
           },
           cardsCollection: true,
+          _count: true,
         },
       });
     }),
@@ -60,6 +61,9 @@ export const studySession = createTRPCRouter({
           cardsCollectionId: input.cardsCollectionId,
           userId: ctx.session.user.id,
           expires: getTomorrow(),
+          cardsCount: 0,
+          masteredCount: 0,
+          reviewCount: 0,
         },
       });
 
@@ -78,6 +82,11 @@ export const studySession = createTRPCRouter({
         },
         include: {
           studyList: true,
+          _count: {
+            select: {
+              studyList: true,
+            },
+          },
         },
       });
     }),
@@ -89,6 +98,9 @@ export const studySession = createTRPCRouter({
         cardId: z.string(),
         nextReview: z.date(),
         interval: z.number(),
+        masteredCount: z.number(),
+        reviewCount: z.number(),
+        cardsCount: z.number(),
       })
     )
     .mutation(async ({ ctx, input }) => {

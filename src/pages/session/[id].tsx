@@ -6,31 +6,23 @@ import { useEffect, useState } from "react";
 import Loader from "../../components/Loader";
 
 export interface SessionProgress {
-  sessionCounters: {
-    masteredCount: number;
-    reviewCount: number;
-    cardsCount: number;
-  };
-  cardInfo: {
-    interval: number;
-    nextReview: Date;
-    sessionId: string;
-    cardId: string;
-  };
+  masteredCount: number;
+  reviewCount: number;
+  cardsCount: number;
+  interval: number;
+  nextReview: Date;
+  sessionId: string;
+  cardId: string;
 }
 
 const sessionProgressInitState: SessionProgress = {
-  sessionCounters: {
-    masteredCount: 0,
-    reviewCount: 0,
-    cardsCount: 0,
-  },
-  cardInfo: {
-    cardId: "",
-    interval: 1,
-    nextReview: new Date(),
-    sessionId: "",
-  },
+  masteredCount: 0,
+  reviewCount: 0,
+  cardsCount: 0,
+  cardId: "",
+  interval: 1,
+  nextReview: new Date(),
+  sessionId: "",
 };
 const SessionPage = () => {
   const router = useRouter();
@@ -44,17 +36,15 @@ const SessionPage = () => {
   const updateSessionCard = api.studySession.updateSessionCard.useMutation();
 
   useEffect(() => {
-    setSessionProgress({
+    handleSessionUpdate({
       ...sessionProgress,
-      sessionCounters: {
-        ...sessionProgress.sessionCounters,
-        cardsCount: data?.studyList.length || 0,
-      },
+      cardsCount: data?._count.studyList || 0,
     });
-    updateSessionCard.mutate({
-      ...sessionProgress.cardInfo,
-    });
-  }, [data]);
+  }, [data?._count.studyList]);
+  const handleSessionUpdate = (sessionData: SessionProgress) => {
+    setSessionProgress(sessionData);
+    updateSessionCard.mutate(sessionData);
+  };
 
   if (!data?.studyList || isFetching) {
     return <Loader />;
@@ -71,7 +61,10 @@ const SessionPage = () => {
       <CardStack
         studyList={data.studyList}
         sessionId={sessionId}
-        sessionState={{ sessionProgress, setSessionProgress }}
+        sessionState={{
+          sessionProgress,
+          setSessionProgress: handleSessionUpdate,
+        }}
       />
     </div>
   );
