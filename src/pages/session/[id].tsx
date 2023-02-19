@@ -16,13 +16,17 @@ export interface SessionProgress {
 }
 
 const sessionProgressInitState = {
-  masteredCount: 0,
-  reviewCount: 0,
-  cardsCount: 0,
-  cardId: "",
-  interval: 1,
-  nextReview: new Date(),
-  sessionId: "",
+  sessionCounters: {
+    masteredCount: 0,
+    reviewCount: 0,
+    cardsCount: 0,
+  },
+  cardInfo: {
+    cardId: "",
+    interval: 1,
+    nextReview: new Date(),
+    sessionId: "",
+  },
 };
 const SessionPage = () => {
   const router = useRouter();
