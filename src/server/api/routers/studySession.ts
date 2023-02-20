@@ -24,7 +24,6 @@ export const studySession = createTRPCRouter({
             },
           },
           cardsCollection: true,
-          _count: true,
         },
       });
     }),
