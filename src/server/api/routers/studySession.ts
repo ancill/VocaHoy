@@ -4,6 +4,7 @@ import { createTRPCRouter, protectedProcedure } from "../trpc";
 import { getTomorrow } from "../../../utils/api";
 
 export const studySession = createTRPCRouter({
+  // get all cards study list for today
   getBySessionId: protectedProcedure
     .input(
       z.object({
@@ -27,6 +28,7 @@ export const studySession = createTRPCRouter({
         },
       });
     }),
+  // get todays study list filtered by collection
   getByCollectionId: protectedProcedure
     .input(
       z.object({
