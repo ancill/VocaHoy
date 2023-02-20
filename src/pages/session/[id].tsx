@@ -33,11 +33,13 @@ const SessionPage = () => {
   const [sessionProgress, setSessionProgress] = useState<SessionProgress>(
     sessionProgressInitState
   );
-  const updateSessionCard = api.studySession.updateSessionCard.useMutation();
+  const updateSessionCard = api.studySession.updateStudySession.useMutation();
 
   useEffect(() => {
     setSessionProgress({
       ...sessionProgress,
+      masteredCount: data?.masteredCount || 0,
+      reviewCount: data?.reviewCount || 0,
       cardsCount: data?.studyList.length || 0,
     });
   }, [data?.studyList.length]);

@@ -90,7 +90,7 @@ export const studySession = createTRPCRouter({
       });
     }),
 
-  updateSessionCard: protectedProcedure
+  updateStudySession: protectedProcedure
     .input(
       z.object({
         sessionId: z.string(),
@@ -108,6 +108,9 @@ export const studySession = createTRPCRouter({
           id: input.sessionId,
         },
         data: {
+          reviewCount: input.reviewCount,
+          masteredCount: input.masteredCount,
+          cardsCount: input.cardsCount,
           studyList: {
             update: {
               data: {
