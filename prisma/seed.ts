@@ -17,14 +17,51 @@ const mockData = (collectionId: string) =>
 
 async function main() {
   // deckCategory seed
-  const collection = await prisma.cardsCollection.create({
-    data: {
-      label: "Dev",
-      category: "DEV",
-      description: "Development collection",
-      imgUrl:
-        "https://daisyui.com/images/stock/photo-1601004890684-d8cbf643f5f2.jpg",
-    },
+  const collection = await prisma.cardsCollection.createMany({
+    data: [
+      {
+        label: "Dev",
+        category: "DEV",
+        description: "Development collection",
+        imgUrl:
+          "https://daisyui.com/images/stock/photo-1601004890684-d8cbf643f5f2.jpg",
+      },
+      {
+        label: "Dev 2",
+        category: "DEV",
+        description: "Development collection",
+        imgUrl:
+          "https://daisyui.com/images/stock/photo-1601004890684-d8cbf643f5f2.jpg",
+      },
+      {
+        label: "Dev 3",
+        category: "DEV",
+        description: "Development collection",
+        imgUrl:
+          "https://daisyui.com/images/stock/photo-1601004890684-d8cbf643f5f2.jpg",
+      },
+      {
+        label: "Dev 4",
+        category: "DEV",
+        description: "Development collection",
+        imgUrl:
+          "https://daisyui.com/images/stock/photo-1601004890684-d8cbf643f5f2.jpg",
+      },
+      {
+        label: "Dev 5",
+        category: "DEV",
+        description: "Development collection",
+        imgUrl:
+          "https://daisyui.com/images/stock/photo-1601004890684-d8cbf643f5f2.jpg",
+      },
+      {
+        label: "Dev 6",
+        category: "DEV",
+        description: "Development collection",
+        imgUrl:
+          "https://daisyui.com/images/stock/photo-1601004890684-d8cbf643f5f2.jpg",
+      },
+    ],
   });
 
   const cards = await prisma.card.createMany({
