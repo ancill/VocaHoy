@@ -22,6 +22,7 @@ specifiers:
   eslint-config-next: 13.1.2
   next: 13.1.2
   next-auth: ^4.18.7
+  pocketbase: ^0.11.0
   postcss: ^8.4.14
   prettier: ^2.8.1
   prettier-plugin-tailwindcss: ^0.2.1
@@ -47,6 +48,7 @@ dependencies:
   daisyui: 2.49.0_gbtt6ss3tbiz4yjtvdr6fbrj44
   next: 13.1.2_biqbaboplfbrettd7655fr4n2y
   next-auth: 4.18.10_7jnwqgtpcnwg4nzft4b6xlzlfi
+  pocketbase: 0.11.0
   react: 18.2.0
   react-card-flip: 1.2.0_biqbaboplfbrettd7655fr4n2y
   react-dom: 18.2.0_react@18.2.0
@@ -2501,6 +2503,10 @@ packages:
   /pify/2.3.0:
     resolution: {integrity: sha512-udgsAY+fTnvv7kI7aaxbqwWNb0AHiB0qBO89PZKPkoTmGOgdbrHDKD+0B2X4uTfJ/FT1R09r9gTsjUjNJotuog==}
     engines: {node: '>=0.10.0'}
+
+  /pocketbase/0.11.0:
+    resolution: {integrity: sha512-nCH3xZoE4oNSWwvjCGOUkuxrZYwzmzEtgW1QrlrV6yPsc9E4D86NDHqXVtnjX7nOLB91FxsiJkZhhlO725yH7g==}
+    dev: false
 
   /postcss-import/14.1.0_postcss@8.4.21:
     resolution: {integrity: sha512-flwI+Vgm4SElObFVPpTIT7SU7R3qk2L7PyduMcokiaVKuWv9d/U+Gm/QAd8NDLuykTWTkcrjOeD2Pp1rMeBTGw==}

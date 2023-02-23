@@ -1,5 +1,7 @@
-import { Card } from "@prisma/client";
+import { Card, CardsCollection } from "@prisma/client";
 import { prisma } from "../src/server/db";
+
+const imgUrl = "http://localhost:8080/images/";
 
 const mockData = (collectionId: string) =>
   Array(200)
@@ -15,23 +17,36 @@ const mockData = (collectionId: string) =>
       };
     }) as Card[];
 
+const mockCollections = () =>
+  Array(6)
+    .fill(null)
+    .map((_, i) => {
+      return {
+        label: `Dev ${i}`,
+        category: "DEV",
+        description: `Development collection number ${i}`,
+        imgUrl: `${imgUrl}${i}.png`,
+      };
+    }) as CardsCollection[];
+
 async function main() {
   // deckCategory seed
-  const collection = await prisma.cardsCollection.create({
-    data: {
-      label: "Dev",
-      category: "DEV",
-      description: "Development collection",
-      imgUrl:
-        "https://daisyui.com/images/stock/photo-1601004890684-d8cbf643f5f2.jpg",
-    },
-  });
+  const collections = await Promise.all(
+    mockCollections().map(async (collection) => {
+      return await prisma.cardsCollection.create({
+        data: collection,
+      });
+    })
+  );
 
-  const cards = await prisma.card.createMany({
-    data: mockData(collection.id),
-  });
-
-  console.log("Created cards count:", cards.count);
+  const cards = await Promise.all(
+    collections.map(async (coll) => {
+      return await prisma.card.createMany({
+        data: mockData(coll.id),
+      });
+    })
+  );
+  console.log("Created cards count:", cards.length);
 }
 main()
   .then(async () => {

@@ -37,9 +37,9 @@ const DeckCollectionCard = ({
   };
 
   return (
-    <div className="card bg-base-100 shadow-xl lg:card-side">
-      <figure>
-        <img src={imgUrl} alt="Collection" />
+    <div className="card image-full w-96 shadow-xl">
+      <figure className="z-10">
+        <img src={imgUrl} alt={label} />
       </figure>
       <div className="card-body">
         <h2 className="card-title">{label}</h2>
