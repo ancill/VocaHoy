@@ -4,6 +4,16 @@ import { createTRPCRouter, protectedProcedure } from "../trpc";
 import { getTomorrow } from "../../../utils/api";
 
 export const studySession = createTRPCRouter({
+  getAllSessionForUser: protectedProcedure.query(({ ctx }) => {
+    return ctx.prisma.studySession.findMany({
+      where: {
+        userId: ctx.session.user.id,
+      },
+      include: {
+        cardsCollection: true,
+      },
+    });
+  }),
   // get all cards study list for today
   getBySessionId: protectedProcedure
     .input(
