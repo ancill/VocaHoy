@@ -34,14 +34,14 @@ const DeckCollectionCard = ({
   };
 
   return (
-    <div className="card bg-base-100 shadow-xl lg:card-side">
-      <figure>
-        d s<Twemoji emoji="👋" />
+    <div className="card w-96 bg-base-100 shadow-xl">
+      <figure className="px-10 pt-10">
+        <Twemoji emoji={imgUrl} />
       </figure>
-      <div className="card-body">
+      <div className="card-body items-center text-center">
         <h2 className="card-title">{label}</h2>
         <p>{description}</p>
-        <div className="card-actions justify-end">
+        <div className="card-actions">
           <button className="btn-primary btn" onClick={handleCardClick}>
             Learn
           </button>
