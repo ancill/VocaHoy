@@ -7,11 +7,16 @@ const CollectionTableHead = () => {
       <tr>
         <th>
           <label>
-            <input type="checkbox" className="checkbox" />
+            <input
+              type="checkbox"
+              className="checkbox"
+              name="checkbox"
+              placeholder="checkbox"
+            />
           </label>
         </th>
         {headers.map((el) => (
-          <th>{el}</th>
+          <th key={el}>{el}</th>
         ))}
       </tr>
     </thead>

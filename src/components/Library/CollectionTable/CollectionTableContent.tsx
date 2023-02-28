@@ -10,13 +10,18 @@ const CollectionTableContent = ({
 }) => {
   return (
     <tbody>
-      {cards.map((el, i) => {
-        const { front, back, imgUrl, interval, nextReview } = el;
+      {cards.map((el) => {
+        const { front, back, imgUrl, interval, nextReview, id } = el;
         return (
-          <tr>
+          <tr key={id}>
             <th>
               <label>
-                <input type="checkbox" className="checkbox" />
+                <input
+                  type="checkbox"
+                  className="checkbox"
+                  name="checkbox"
+                  placeholder="checkbox"
+                />
               </label>
             </th>
             <td>

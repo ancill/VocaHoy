@@ -29,6 +29,7 @@ specifiers:
   react: 18.2.0
   react-card-flip: ^1.2.0
   react-dom: 18.2.0
+  react-twemoji-picker: github:brianhung/emojipicker
   superjson: 1.9.1
   tailwindcss: ^3.2.0
   tsx: ^3.12.2
@@ -51,6 +52,7 @@ dependencies:
   react: 18.2.0
   react-card-flip: 1.2.0_biqbaboplfbrettd7655fr4n2y
   react-dom: 18.2.0_react@18.2.0
+  react-twemoji-picker: github.com/brianhung/emojipicker/d047c8380bbdbda5b727ea1fa5402d3bdbc6a825_biqbaboplfbrettd7655fr4n2y
   superjson: 1.9.1
   twemoji: 14.0.2
   zod: 3.20.2
@@ -2230,6 +2232,10 @@ packages:
     dependencies:
       yallist: 4.0.0
 
+  /memoize-one/5.2.1:
+    resolution: {integrity: sha512-zYiwtZUcYyXKo/np96AGZAckk+FWWsUdJ3cHGGmld7+AhvcWmQyGCYUh1hc4Q/pkOhb65dQR/pqCyK0cOaHz4Q==}
+    dev: false
+
   /merge2/1.4.1:
     resolution: {integrity: sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==}
     engines: {node: '>= 8'}
@@ -2746,6 +2752,30 @@ packages:
       react: 18.2.0
     dev: false
 
+  /react-window-infinite-loader/1.0.8_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-907ZLAiZZfBHuZyiY0V7uiSL4P/rI6UQyCF9wES1cDWTeyNLgGLaxu+BZkcUW3R5tSCQcbCcWBl0jVIpYzrKGQ==}
+    engines: {node: '>8.0.0'}
+    peerDependencies:
+      react: ^15.3.0 || ^16.0.0-alpha || ^17.0.0 || ^18.0.0
+      react-dom: ^15.3.0 || ^16.0.0-alpha || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
+  /react-window/1.8.8_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-D4IiBeRtGXziZ1n0XklnFGu7h9gU684zepqyKzgPNzrsrk7xOCxni+TCckjg2Nr/DiaEEGVVmnhYSlT2rB47dQ==}
+    engines: {node: '>8.0.0'}
+    peerDependencies:
+      react: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      '@babel/runtime': 7.20.13
+      memoize-one: 5.2.1
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
   /react/18.2.0:
     resolution: {integrity: sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==}
     engines: {node: '>=0.10.0'}
@@ -3237,4 +3267,19 @@ packages:
 
   /zod/3.20.2:
     resolution: {integrity: sha512-1MzNQdAvO+54H+EaK5YpyEy0T+Ejo/7YLHS93G3RnYWh5gaotGHwGeN/ZO687qEDU2y4CdStQYXVHIgrUl5UVQ==}
+    dev: false
+
+  github.com/brianhung/emojipicker/d047c8380bbdbda5b727ea1fa5402d3bdbc6a825_biqbaboplfbrettd7655fr4n2y:
+    resolution: {tarball: https://codeload.github.com/brianhung/emojipicker/tar.gz/d047c8380bbdbda5b727ea1fa5402d3bdbc6a825}
+    id: github.com/brianhung/emojipicker/d047c8380bbdbda5b727ea1fa5402d3bdbc6a825
+    name: react-twemoji-picker
+    version: 0.1.0
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0
+    dependencies:
+      react: 18.2.0
+      react-window: 1.8.8_biqbaboplfbrettd7655fr4n2y
+      react-window-infinite-loader: 1.0.8_biqbaboplfbrettd7655fr4n2y
+    transitivePeerDependencies:
+      - react-dom
     dev: false

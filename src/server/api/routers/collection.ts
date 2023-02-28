@@ -26,8 +26,6 @@ export const collectionRouter = createTRPCRouter({
   createCollection: protectedProcedure
     .input(
       z.object({
-        cardsCollectionId: z.string(),
-        isSessionEnded: z.boolean(),
         category: z.nativeEnum(CardCollectionCategory),
         description: z.string(),
         imgUrl: z.string(),
@@ -41,6 +39,20 @@ export const collectionRouter = createTRPCRouter({
           description: input.description,
           imgUrl: input.imgUrl,
           label: input.label,
+        },
+      });
+    }),
+
+  removeCollection: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .mutation(({ ctx, input }) => {
+      return ctx.prisma.cardsCollection.delete({
+        where: {
+          id: input.id,
         },
       });
     }),
