@@ -2,30 +2,23 @@ import SessionsCarousel from "../../components/Library/SessionsCarousel";
 import { api } from "../../utils/api";
 import Loader from "../../components/Loader";
 import CardCollectionGrid from "../../components/Library/CardCollectionGrid";
+import { useRouter } from "next/router";
+import { NAVIGATION_ROUTES } from "../../constants/navigation";
 
 const CollectionTitle = ({ label }: { label: string }) => {
+  const router = useRouter();
+
   const handleCreateCollection = () => {
-    console.log("create collection");
+    // Redirect to dynamic page for each session
+    //router.push(NAVIGATION_ROUTES.collection + `/${sessionIdForRouter}`);
   };
+
   return (
     <div className="flex py-4">
       <h1 className="mr-6 pt-1 text-4xl font-bold">{label}</h1>
-      <div className="dropdown-hover dropdown">
-        <label tabIndex={0} className="btn">
-          EDIT
-        </label>
-        <ul
-          tabIndex={0}
-          className="dropdown-content menu rounded-box w-52 bg-base-100 p-2 shadow"
-        >
-          <li>
-            <a onClick={handleCreateCollection}>Create collection</a>
-          </li>
-          <li>
-            <a onClick={handleCreateCollection}>Edit collection</a>
-          </li>
-        </ul>
-      </div>
+      <button className="btn" onClick={handleCreateCollection}>
+        Add new
+      </button>
     </div>
   );
 };
