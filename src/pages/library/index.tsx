@@ -2,30 +2,22 @@ import SessionsCarousel from "../../components/Library/SessionsCarousel";
 import { api } from "../../utils/api";
 import Loader from "../../components/Loader";
 import CardCollectionGrid from "../../components/Library/CardCollectionGrid";
+import { useRouter } from "next/router";
+import { NAVIGATION_ROUTES } from "../../constants/navigation";
+import { CardCollectionCategory } from "@prisma/client";
+import CreateCollectionModal from "../../components/Library/CreateCollectionModal";
+import { LABEL_COLLECTION } from "../../constants/common";
 
-const CollectionTitle = ({ label }: { label: string }) => {
-  const handleCreateCollection = () => {
-    console.log("create collection");
-  };
+const CollectionTitle = ({
+  category,
+}: {
+  category: CardCollectionCategory;
+}) => {
+  const collectionLabel = LABEL_COLLECTION[category];
   return (
     <div className="flex py-4">
-      <h1 className="mr-6 pt-1 text-4xl font-bold">{label}</h1>
-      <div className="dropdown-hover dropdown">
-        <label tabIndex={0} className="btn">
-          EDIT
-        </label>
-        <ul
-          tabIndex={0}
-          className="dropdown-content menu rounded-box w-52 bg-base-100 p-2 shadow"
-        >
-          <li>
-            <a onClick={handleCreateCollection}>Create collection</a>
-          </li>
-          <li>
-            <a onClick={handleCreateCollection}>Edit collection</a>
-          </li>
-        </ul>
-      </div>
+      <h1 className="mr-6 pt-1 text-4xl font-bold">{collectionLabel}</h1>
+      <CreateCollectionModal label={collectionLabel} category={category} />
     </div>
   );
 };
@@ -44,15 +36,15 @@ function LibraryPage() {
     <>
       <SessionTitle label="Current Sessions" />
       <SessionsCarousel />
-      <CollectionTitle label="Development" />
+      <CollectionTitle category="DEV" />
       <CardCollectionGrid
         collections={data.filter((el) => el.category === "DEV")}
       />
-      <CollectionTitle label="PERSONAL" />
+      <CollectionTitle category="PERSONAL" />
       <CardCollectionGrid
         collections={data.filter((el) => el.category === "PERSONAL")}
       />
-      <CollectionTitle label="TOP_5000" />
+      <CollectionTitle category="TOP_5000" />
       <CardCollectionGrid
         collections={data.filter((el) => el.category === "TOP_5000")}
       />

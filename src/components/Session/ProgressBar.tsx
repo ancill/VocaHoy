@@ -13,6 +13,7 @@ const ProgressBar = ({
     <div className="navbar rounded-lg bg-base-100 px-6">
       <div className="navbar-start flex">
         <button
+          title="back"
           className="btn-outline btn-square btn mr-4"
           onClick={() => router.push(NAVIGATION_ROUTES.lib)}
         >

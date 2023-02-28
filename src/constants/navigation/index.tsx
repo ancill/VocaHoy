@@ -4,6 +4,7 @@ export const NAVIGATION_ROUTES = {
   rating: "/rating",
   settings: "/settings",
   deckSession: "/session",
+  collection: "/library/collection",
 };
 
 export const NAVIGATION_CONFIGURATION = [
