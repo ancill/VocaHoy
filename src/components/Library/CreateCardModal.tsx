@@ -45,22 +45,18 @@ const CreateCardModal = ({
 }: {
   cardCollectionId: string;
 }) => {
-  const router = useRouter();
   const { mutateAsync } = api.cards.createCard.useMutation();
   const [formData, setFormData] = useState<FormCollectionInput>({
-    description: "",
+    audioUrl: "",
     imgUrl: "",
-    label: "",
+    back: "",
+    front: "",
   });
-  const handleCreateCollection = async () => {
-    const createdCollection = await mutateAsync({
-      category: category,
-      description: formData.description,
-      imgUrl: formData.imgUrl,
-      label: formData.label,
+  const handleCreateCard = async () => {
+    const createdCard = await mutateAsync({
+      cardsCollectionId: cardCollectionId,
+      ...formData,
     });
-    // Redirect to dynamic page for each session
-    router.push(NAVIGATION_ROUTES.collection + `/${createdCollection.id}`);
   };
 
   return (
@@ -73,28 +69,33 @@ const CreateCardModal = ({
       <input type="checkbox" id="my-modal-6" className="modal-toggle" />
       <div className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
-          <h3 className="text-lg font-bold">
-            Create new collection for {label}
-          </h3>
+          <h3 className="text-lg font-bold">Create new card</h3>
           <div className="form-control w-full max-w-xs">
             <Input
-              question="Name of new collection?"
-              stateProperty="label"
-              key={"label"}
+              question="Provide question for front side of card"
+              stateProperty="front"
+              key={"front"}
               formData={formData}
               setFormData={setFormData}
             />
             <Input
-              question="Provide meaningful description"
-              stateProperty="description"
-              key={"description"}
+              question="Provide answer for back side card"
+              stateProperty="back"
+              key={"back"}
               formData={formData}
               setFormData={setFormData}
             />
             <Input
-              question="Set unique emoji for this collection"
+              question="Add img url"
               stateProperty="imgUrl"
               key={"imgUrl"}
+              formData={formData}
+              setFormData={setFormData}
+            />
+            <Input
+              question="Add audio url"
+              stateProperty="audioUrl"
+              key={"audioUrl"}
               formData={formData}
               setFormData={setFormData}
             />
@@ -103,7 +104,7 @@ const CreateCardModal = ({
             <label
               htmlFor="my-modal-6"
               className="btn"
-              onClick={handleCreateCollection}
+              onClick={handleCreateCard}
             >
               Create
             </label>
