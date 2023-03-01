@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { api } from "../../utils/api";
 import { Card } from "@prisma/client";
 import { NAVIGATION_ROUTES } from "../../constants/navigation";
+import Alert from "../Alert";
 
 type FormCollectionInput = Omit<
   Card,
@@ -39,33 +40,43 @@ const Input = ({
     />
   </>
 );
-
+const initialState = {
+  audioUrl: "",
+  imgUrl: "",
+  back: "",
+  front: "",
+};
 const CreateCardModal = ({
   cardCollectionId,
 }: {
   cardCollectionId: string;
 }) => {
-  const { mutateAsync } = api.cards.createCard.useMutation();
-  const [formData, setFormData] = useState<FormCollectionInput>({
-    audioUrl: "",
-    imgUrl: "",
-    back: "",
-    front: "",
-  });
+  const { mutateAsync, isSuccess } = api.cards.createCard.useMutation();
+  const { data, isLoading, refetch } =
+    api.cardsCollection.getCardCollection.useQuery(
+      {
+        id: cardCollectionId,
+      },
+      { enabled: isSuccess }
+    );
+  const [formData, setFormData] = useState<FormCollectionInput>(initialState);
   const handleCreateCard = async () => {
     const createdCard = await mutateAsync({
       cardsCollectionId: cardCollectionId,
       ...formData,
     });
+    if (createdCard) {
+      setFormData(initialState);
+    }
   };
 
   return (
     <>
+      {isSuccess && <Alert message="Created new card!" status="success" />}
       <label htmlFor="my-modal-6" className="btn">
         Create
       </label>
 
-      {/* Put this part before </body> tag */}
       <input type="checkbox" id="my-modal-6" className="modal-toggle" />
       <div className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">

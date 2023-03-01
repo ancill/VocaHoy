@@ -8,16 +8,21 @@ import Twemoji from "../../../components/Twemoji";
 import { useRouter } from "next/router";
 
 const CollectionPage = () => {
-  const router = useRouter();
-  const collectionId = router.query.id as string;
-  const { data, isLoading } = api.cardsCollection.getCardCollection.useQuery({
-    id: collectionId,
-  });
-  if (isLoading) return <Loader />;
+  const { query, isReady } = useRouter();
+  const collectionId = query.id as string;
+  const { data, isLoading, refetch } =
+    api.cardsCollection.getCardCollection.useQuery(
+      {
+        id: collectionId,
+      },
+      { enabled: isReady }
+    );
+
+  if (!isReady || isLoading) return <Loader />;
   if (!data || data?.cards?.length === 0)
     return (
       <>
-        <CollectionTableBar label="Return" />
+        <CollectionTableBar label="Return" collectionId={collectionId} />
         <div className="card bg-base-100">
           <div className="card-body items-center  justify-center text-2xl font-bold">
             <Twemoji emoji="🙈" />
@@ -29,7 +34,10 @@ const CollectionPage = () => {
 
   return (
     <>
-      <CollectionTableBar label="Create new collection" />
+      <CollectionTableBar
+        label="Create new collection"
+        collectionId={collectionId}
+      />
       <div className="w-full overflow-x-auto ">
         <table className="table w-full ">
           <CollectionTableHead />
