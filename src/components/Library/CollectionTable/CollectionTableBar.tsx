@@ -10,6 +10,7 @@ const CollectionTableBar = ({
   label: string;
   collectionId: string;
 }) => {
+  const handleEditCollection = () => {};
   return (
     <div className="navbar rounded-t-lg bg-base-200 px-6">
       <div className="navbar-start flex">
@@ -38,6 +39,9 @@ const CollectionTableBar = ({
         </div>
       </div>
       <div className="navbar-end">
+        <button className="btn-outline btn mr-2" onClick={handleEditCollection}>
+          Remove
+        </button>
         <CreateCardModal cardCollectionId={collectionId} />
       </div>
     </div>

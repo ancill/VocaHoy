@@ -34,10 +34,7 @@ const CollectionPage = () => {
 
   return (
     <>
-      <CollectionTableBar
-        label="Create new collection"
-        collectionId={collectionId}
-      />
+      <CollectionTableBar label={data.label} collectionId={collectionId} />
       <div className="w-full overflow-x-auto ">
         <table className="table w-full ">
           <CollectionTableHead />

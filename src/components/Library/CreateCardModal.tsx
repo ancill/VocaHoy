@@ -72,7 +72,7 @@ const CreateCardModal = ({
   return (
     <>
       {isSuccess && <Alert message="Created new card!" status="success" />}
-      <label htmlFor="my-modal-6" className="btn">
+      <label htmlFor="my-modal-6" className="btn-outline btn">
         Create
       </label>
 
@@ -117,6 +117,9 @@ const CreateCardModal = ({
               onClick={handleCreateCard}
             >
               Create
+            </label>
+            <label htmlFor="my-modal-6" className="btn">
+              Close
             </label>
           </div>
         </div>
