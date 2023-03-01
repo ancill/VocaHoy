@@ -40,8 +40,8 @@ const DeckCollectionCard = ({
   };
 
   const handleCheckCollection = () => {
-    // Redirect to dynamic page for collection
-    router.push(NAVIGATION_ROUTES.collection + `/${id}`);
+    // if sessionId provided it means that is current session to show and not a general collection
+    router.push(NAVIGATION_ROUTES.collection + `/${id}?sessionId=${sessionId}`);
   };
 
   return (

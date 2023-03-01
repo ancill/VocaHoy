@@ -38,27 +38,6 @@ export const studySession = createTRPCRouter({
         },
       });
     }),
-  // get todays study list filtered by collection
-  getByCollectionId: protectedProcedure
-    .input(
-      z.object({
-        cardsCollectionId: z.string(),
-        isSessionEnded: z.boolean(),
-      })
-    )
-    .query(({ ctx, input }) => {
-      return ctx.prisma.studySession.findFirst({
-        where: {
-          cardsCollectionId: input.cardsCollectionId,
-          userId: ctx.session.user.id,
-          isSessionEnded: input.isSessionEnded,
-        },
-        include: {
-          studyList: true,
-        },
-      });
-    }),
-
   create: protectedProcedure
     .input(
       z.object({
