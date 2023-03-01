@@ -27,7 +27,7 @@ const SessionTitle = ({ label }: { label: string }) => (
 );
 
 function LibraryPage() {
-  const { data, error, isLoading } =
+  const { data, error, isLoading, refetch } =
     api.cardsCollection.getCardsCollection.useQuery();
 
   if (isLoading || error) return <Loader />;

@@ -1,10 +1,10 @@
 import router from "next/router";
 import React from "react";
 import { NAVIGATION_ROUTES } from "../../../constants/navigation";
+import CreateCardModal from "../CreateCardModal";
 
 const CollectionTableBar = ({ label }: { label: string }) => {
-  return (
-    <div className="navbar rounded-t-lg bg-base-200 px-6">
+  return  <div className="navbar rounded-t-lg bg-base-200 px-6">
       <div className="navbar-start flex">
         <button
           className="btn-outline btn-square btn mr-4"
@@ -29,6 +29,9 @@ const CollectionTableBar = ({ label }: { label: string }) => {
         <div>
           <h3 className="text-xl normal-case">{label}</h3>
         </div>
+      </div>
+      <div className="navbar-end">
+       <CreateCardModal cardCollectionId=""/>
       </div>
     </div>
   );

@@ -7,7 +7,7 @@ import Loader from "../../../components/Loader";
 import Twemoji from "../../../components/Twemoji";
 import { useRouter } from "next/router";
 
-const CreateCollectionPage = () => {
+const CollectionPage = () => {
   const router = useRouter();
   const collectionId = router.query.id as string;
   const { data, isLoading } = api.cardsCollection.getCardCollection.useQuery({
@@ -43,4 +43,4 @@ const CreateCollectionPage = () => {
   );
 };
 
-export default CreateCollectionPage;
+export default CollectionPage;
