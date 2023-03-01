@@ -13,7 +13,7 @@ const NoDataCollection = ({ collectionId }: { collectionId: string }) => {
     <>
       <CollectionTableBar label="Return" collectionId={collectionId} />
       <div className="card bg-base-100">
-        <div className="card-body items-center  justify-center text-2xl font-bold">
+        <div className="card-body items-center justify-center text-2xl font-bold">
           <Twemoji emoji="🙈" />
           <span> No data</span>
         </div>
@@ -69,12 +69,14 @@ const CollectionPage = () => {
     return <NoDataCollection collectionId={collectionId} />;
 
   return studySessionQuery.isSuccess ? (
+    // Session view
     <CollectionTable
       cards={studySessionQuery.data!.studyList}
       collectionId={studySessionQuery.data!.cardsCollectionId}
       label="Session info"
     />
   ) : (
+    // Collection view
     <CollectionTable
       cards={data.cards}
       collectionId={collectionId}

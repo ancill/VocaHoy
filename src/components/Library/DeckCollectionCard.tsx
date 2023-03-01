@@ -84,11 +84,12 @@ const DeckCollectionCard = ({
         <h2 className="card-title">{label}</h2>
         <p>{description}</p>
         <div className="card-actions">
-          <button className="btn-primary btn" onClick={handleCardClick}>
-            Learn
-          </button>
-          <button className="btn-secondary btn" onClick={handleCheckCollection}>
+          <button className="btn" onClick={handleCheckCollection}>
             Show
+          </button>
+          <button className="btn gap-2" onClick={handleCardClick}>
+            Learn
+            <div className="badge-secondary badge">+99</div>
           </button>
         </div>
       </div>
