@@ -52,13 +52,12 @@ const CreateCardModal = ({
   cardCollectionId: string;
 }) => {
   const { mutateAsync, isSuccess } = api.cards.createCard.useMutation();
-  const { data, isLoading, refetch } =
-    api.cardsCollection.getCardCollection.useQuery(
-      {
-        id: cardCollectionId,
-      },
-      { enabled: isSuccess }
-    );
+  api.cardsCollection.getCardCollection.useQuery(
+    {
+      id: cardCollectionId,
+    },
+    { enabled: isSuccess }
+  );
   const [formData, setFormData] = useState<FormCollectionInput>(initialState);
   const handleCreateCard = async () => {
     const createdCard = await mutateAsync({

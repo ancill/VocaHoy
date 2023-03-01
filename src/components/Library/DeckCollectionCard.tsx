@@ -49,8 +49,9 @@ const DeckCollectionCard = ({
       <div className="card-actions justify-end">
         <button
           className="btn-square btn-sm btn"
+          title="remove"
           onClick={() =>
-            removeCollectionMutation.mutate(
+            removeCollectionMutation.mutateAsync(
               {
                 id: id,
               },
