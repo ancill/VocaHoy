@@ -25,11 +25,16 @@ const sessionProgressInitState: SessionProgress = {
   sessionId: "",
 };
 const SessionPage = () => {
-  const router = useRouter();
-  const sessionId = router.query.id as string;
-  const { data, isFetching, error } = api.studySession.getBySessionId.useQuery({
-    sessionId,
-  });
+  const { query, isReady } = useRouter();
+  const sessionId = query.id as string;
+  const { data, isFetching, error } = api.studySession.getBySessionId.useQuery(
+    {
+      sessionId,
+    },
+    {
+      enabled: isReady,
+    }
+  );
   const [sessionProgress, setSessionProgress] = useState<SessionProgress>(
     sessionProgressInitState
   );

@@ -4,7 +4,6 @@ import { CardsCollection } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { api } from "../../utils/api";
 import Twemoji from "../Twemoji";
-import { useRemoveCardCollection } from "../../hooks/useRemoveCollection";
 
 const DeckCollectionCard = ({
   category,
@@ -13,11 +12,19 @@ const DeckCollectionCard = ({
   imgUrl,
   label,
   sessionId,
-}: CardsCollection & { sessionId?: string }) => {
+}: CardsCollection & { sessionId: string }) => {
   const router = useRouter();
   const createSessionMutation = api.studySession.create.useMutation();
-  const { removeCollection } = useRemoveCardCollection();
-
+  const removeCollectionMutation =
+    api.cardsCollection.removeCollection.useMutation();
+  const { refetch } = api.studySession.getBySessionId.useQuery(
+    {
+      sessionId,
+    },
+    {
+      enabled: false,
+    }
+  );
   const handleCardClick = async () => {
     let sessionIdForRouter = sessionId;
 
@@ -46,9 +53,14 @@ const DeckCollectionCard = ({
         <button
           className="btn-square btn-sm btn"
           onClick={() =>
-            removeCollection({
-              id: id,
-            })
+            removeCollectionMutation.mutate(
+              {
+                id: id,
+              },
+              {
+                onSuccess: () => refetch(),
+              }
+            )
           }
         >
           <svg
