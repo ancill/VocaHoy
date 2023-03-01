@@ -4,7 +4,7 @@ import { createTRPCRouter, protectedProcedure } from "../trpc";
 import { getTomorrow } from "../../../utils/api";
 
 export const studySession = createTRPCRouter({
-  getAllSessionForUser: protectedProcedure.query(({ ctx }) => {
+  getAllSessionsForUser: protectedProcedure.query(({ ctx }) => {
     return ctx.prisma.studySession.findMany({
       where: {
         userId: ctx.session.user.id,
