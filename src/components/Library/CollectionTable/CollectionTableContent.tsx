@@ -15,13 +15,16 @@ const CollectionTableContent = ({
         return (
           <tr key={id}>
             <th>
-              <label>
+              <label className="flex items-center justify-start">
                 <input
                   type="checkbox"
                   className="checkbox"
                   name="checkbox"
                   placeholder="checkbox"
                 />
+                <button type="button" className="btn ml-4">
+                  Edit
+                </button>
               </label>
             </th>
             <td>

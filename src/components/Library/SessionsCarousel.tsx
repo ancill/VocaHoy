@@ -4,7 +4,7 @@ import { api } from "../../utils/api";
 import Loader from "../Loader";
 
 const SessionsCarousel = () => {
-  const { data, isLoading } = api.studySession.getAllSessionForUser.useQuery();
+  const { data, isLoading } = api.studySession.getAllSessionsForUser.useQuery();
 
   if (isLoading || !data) {
     return <Loader />;

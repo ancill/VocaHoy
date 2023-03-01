@@ -3,8 +3,16 @@ import React from "react";
 import { NAVIGATION_ROUTES } from "../../../constants/navigation";
 import CreateCardModal from "../CreateCardModal";
 
-const CollectionTableBar = ({ label }: { label: string }) => {
-  return  <div className="navbar rounded-t-lg bg-base-200 px-6">
+const CollectionTableBar = ({
+  label,
+  collectionId,
+}: {
+  label: string;
+  collectionId: string;
+}) => {
+  const handleEditCollection = () => {};
+  return (
+    <div className="navbar rounded-t-lg bg-base-200 px-6">
       <div className="navbar-start flex">
         <button
           className="btn-outline btn-square btn mr-4"
@@ -31,7 +39,10 @@ const CollectionTableBar = ({ label }: { label: string }) => {
         </div>
       </div>
       <div className="navbar-end">
-       <CreateCardModal cardCollectionId=""/>
+        <button className="btn-outline btn mr-2" onClick={handleEditCollection}>
+          Remove
+        </button>
+        <CreateCardModal cardCollectionId={collectionId} />
       </div>
     </div>
   );
