@@ -1,7 +1,6 @@
 import router from "next/router";
 import React from "react";
 import { NAVIGATION_ROUTES } from "../../../constants/navigation";
-import { api } from "../../../utils/api";
 import CreateCardModal from "../CreateCardModal";
 
 const CollectionTableBar = ({ label }: { label: string }) => {
@@ -32,7 +31,7 @@ const CollectionTableBar = ({ label }: { label: string }) => {
         </div>
       </div>
       <div className="navbar-end">
-       <CreateCardModal />
+       <CreateCardModal cardCollectionId=""/>
       </div>
     </div>
   );
