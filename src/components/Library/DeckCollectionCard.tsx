@@ -15,6 +15,7 @@ const DeckCollectionCard = ({
 }: CardsCollection & { sessionId?: string; count: number }) => {
   const router = useRouter();
   const createSessionMutation = api.studySession.create.useMutation();
+  const closeSessionMutation = api.studySession.closeSession.useMutation();
   const removeCollectionMutation =
     api.cardsCollection.removeCollection.useMutation();
   const { refetch } = api.cardsCollection.getCardsCollection.useQuery(
@@ -23,7 +24,22 @@ const DeckCollectionCard = ({
       enabled: false,
     }
   );
-
+  const handleCloseClick = async () => {
+    // remove collection
+    !sessionId
+      ? removeCollectionMutation.mutateAsync(
+          {
+            id: id,
+          },
+          {
+            onSuccess: () => refetch(),
+          }
+        )
+      : // close session
+        closeSessionMutation.mutateAsync({
+          sessionId: sessionId,
+        });
+  };
   const handleCardClick = async () => {
     let sessionIdForRouter = sessionId;
 
@@ -59,16 +75,7 @@ const DeckCollectionCard = ({
         <button
           className="btn-square btn-sm btn"
           title="remove"
-          onClick={() =>
-            removeCollectionMutation.mutateAsync(
-              {
-                id: id,
-              },
-              {
-                onSuccess: () => refetch(),
-              }
-            )
-          }
+          onClick={handleCloseClick}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

@@ -17,7 +17,7 @@ const SessionsCarousel = () => {
           <DeckCollectionCard
             {...el.cardsCollection}
             sessionId={el.id}
-            count={el._count.studyList}
+            count={el._count.studyList - el.masteredCount}
           />
         </div>
       ))}
