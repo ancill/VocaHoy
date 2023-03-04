@@ -5,9 +5,38 @@ import { getTomorrow } from "../../../utils/api";
 
 export const studySession = createTRPCRouter({
   getAllSessionsForUser: protectedProcedure.query(({ ctx }) => {
+    // const endedSessions = await ctx.prisma.studySession.findMany({
+    //   where: {
+    //     userId: ctx.session.user.id,
+    //     studyList: {
+    //       some: {
+    //         nextReview: {
+    //           lte: new Date(),
+    //         },
+    //       },
+    //     },
+    //   },
+    // });
+    // // close all session that ended yesterday
+    // if (endedSessions.length > 0) {
+    //   endedSessions.forEach(async (el) => {
+    //     await ctx.prisma.studySession.update({
+    //       where: {
+    //         id: el.id,
+    //       },
+    //       data: {
+    //         isSessionEnded: true,
+    //       },
+    //     });
+    //   });
+    // }
+
     return ctx.prisma.studySession.findMany({
       where: {
         userId: ctx.session.user.id,
+        expires: {
+          equals: getTomorrow(),
+        },
       },
       include: {
         cardsCollection: true,

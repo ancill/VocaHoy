@@ -41,7 +41,14 @@ const CollectionTableContent = ({
               </div>
             </td>
             <td>{collectionLabel}</td>
-            <td></td>
+            <td>
+              <div>
+                <div className="font-bold"> Interval: {interval}</div>
+                <div className="text-sm opacity-50">
+                  Next review: {nextReview.toLocaleString()}
+                </div>
+              </div>
+            </td>
           </tr>
         );
       })}
