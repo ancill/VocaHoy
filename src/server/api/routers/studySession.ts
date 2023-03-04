@@ -11,6 +11,11 @@ export const studySession = createTRPCRouter({
       },
       include: {
         cardsCollection: true,
+        _count: {
+          select: {
+            studyList: true,
+          },
+        },
       },
     });
   }),

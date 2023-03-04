@@ -5,7 +5,11 @@ import { useAutoAnimate } from "@formkit/auto-animate/react";
 const CardCollectionGrid = ({
   collections,
 }: {
-  collections: CardsCollection[];
+  collections: (CardsCollection & {
+    _count: {
+      cards: number;
+    };
+  })[];
 }) => {
   const [parent] = useAutoAnimate();
   return (
@@ -14,7 +18,7 @@ const CardCollectionGrid = ({
       ref={parent}
     >
       {collections.map((el) => (
-        <DeckCollectionCard {...el} key={el.id} />
+        <DeckCollectionCard {...el} key={el.id} count={el._count.cards} />
       ))}
     </div>
   );

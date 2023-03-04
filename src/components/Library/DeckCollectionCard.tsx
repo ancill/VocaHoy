@@ -11,7 +11,8 @@ const DeckCollectionCard = ({
   imgUrl,
   label,
   sessionId,
-}: CardsCollection & { sessionId?: string }) => {
+  count,
+}: CardsCollection & { sessionId?: string; count: number }) => {
   const router = useRouter();
   const createSessionMutation = api.studySession.create.useMutation();
   const removeCollectionMutation =
@@ -22,6 +23,7 @@ const DeckCollectionCard = ({
       enabled: false,
     }
   );
+
   const handleCardClick = async () => {
     let sessionIdForRouter = sessionId;
 
@@ -43,6 +45,13 @@ const DeckCollectionCard = ({
     // if sessionId provided it means that is current session to show and not a general collection
     router.push(NAVIGATION_ROUTES.collection + `/${id}?sessionId=${sessionId}`);
   };
+
+  const LearnButton = () => (
+    <button className="btn gap-2" onClick={handleCardClick}>
+      {!sessionId ? "Start learning" : "Learn"}
+      {sessionId && <div className="badge-secondary badge">{count}</div>}
+    </button>
+  );
 
   return (
     <div className="card w-96 bg-base-100 p-4 shadow-xl">
@@ -82,15 +91,13 @@ const DeckCollectionCard = ({
       </figure>
       <div className="card-body items-center text-center">
         <h2 className="card-title">{label}</h2>
+        <div className="badge badge-lg">{count} cards</div>
         <p>{description}</p>
         <div className="card-actions">
           <button className="btn" onClick={handleCheckCollection}>
             Show
           </button>
-          <button className="btn gap-2" onClick={handleCardClick}>
-            Learn
-            <div className="badge-secondary badge">+99</div>
-          </button>
+          <LearnButton />
         </div>
       </div>
     </div>

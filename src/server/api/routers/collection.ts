@@ -5,7 +5,15 @@ import { CardCollectionCategory } from "@prisma/client";
 
 export const collectionRouter = createTRPCRouter({
   getCardsCollection: protectedProcedure.query(({ ctx }) => {
-    return ctx.prisma.cardsCollection.findMany();
+    return ctx.prisma.cardsCollection.findMany({
+      include: {
+        _count: {
+          select: {
+            cards: true,
+          },
+        },
+      },
+    });
   }),
   getCardCollection: protectedProcedure
     .input(

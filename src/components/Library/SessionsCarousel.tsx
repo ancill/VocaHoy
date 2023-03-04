@@ -14,7 +14,11 @@ const SessionsCarousel = () => {
     <div className="carousel rounded-box space-x-4 p-4">
       {data.map((el) => (
         <div className="carousel-item" key={el.id}>
-          <DeckCollectionCard {...el.cardsCollection} sessionId={el.id} />
+          <DeckCollectionCard
+            {...el.cardsCollection}
+            sessionId={el.id}
+            count={el._count.studyList}
+          />
         </div>
       ))}
     </div>
