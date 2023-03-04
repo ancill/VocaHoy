@@ -34,9 +34,6 @@ export const studySession = createTRPCRouter({
     return ctx.prisma.studySession.findMany({
       where: {
         userId: ctx.session.user.id,
-        expires: {
-          equals: getTomorrow(),
-        },
       },
       include: {
         cardsCollection: true,
@@ -56,6 +53,7 @@ export const studySession = createTRPCRouter({
       })
     )
     .query(({ ctx, input }) => {
+      console.log(getTomorrow());
       return ctx.prisma.studySession.findFirst({
         where: {
           id: input.sessionId,
@@ -64,7 +62,7 @@ export const studySession = createTRPCRouter({
           studyList: {
             where: {
               nextReview: {
-                lt: getTomorrow(),
+                lte: getTomorrow(),
               },
             },
           },

@@ -91,7 +91,7 @@ const DeckCollectionCard = ({
       </figure>
       <div className="card-body items-center text-center">
         <h2 className="card-title">{label}</h2>
-        <div className="badge badge-lg">{count} cards</div>
+        {!sessionId && <div className="badge badge-lg">{count} cards</div>}
         <p>{description}</p>
         <div className="card-actions">
           <button className="btn" onClick={handleCheckCollection}>
