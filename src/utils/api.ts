@@ -19,6 +19,13 @@ export const getTomorrow = () => {
   return tomorrow;
 };
 
+export const getToday = () => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  return today;
+};
+
 const getBaseUrl = () => {
   if (typeof window !== "undefined") return ""; // browser should use relative url
   if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`; // SSR should use vercel url
