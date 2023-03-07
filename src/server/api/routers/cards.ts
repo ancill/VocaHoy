@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
+import { getToday } from "../../../utils/api";
 
 export const cardsRouter = createTRPCRouter({
   createCard: protectedProcedure
@@ -16,6 +17,7 @@ export const cardsRouter = createTRPCRouter({
       return ctx.prisma.card.create({
         data: {
           ...input,
+          nextReview: getToday(),
         },
       });
     }),
