@@ -62,36 +62,42 @@ const DeckCollectionCard = ({
     router.push(NAVIGATION_ROUTES.collection + `/${id}?sessionId=${sessionId}`);
   };
 
-  const LearnButton = () => (
-    <button className="btn gap-2" onClick={handleCardClick}>
-      {!sessionId ? "Start learning" : "Learn"}
-      {sessionId && <div className="badge-secondary badge">{count}</div>}
-    </button>
-  );
+  const LearnButton = () => {
+    if (count === 0) return null;
+
+    return (
+      <button className="btn gap-2" onClick={handleCardClick}>
+        {!sessionId ? "Start learning" : "Learn"}
+        {sessionId && <div className="badge-secondary badge">{count}</div>}
+      </button>
+    );
+  };
 
   return (
     <div className="card w-96 bg-base-100 p-4 shadow-xl">
       <div className="card-actions justify-end">
-        <button
-          className="btn-square btn-sm btn"
-          title="remove"
-          onClick={handleCloseClick}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
+        {category === "PERSONAL" || !!sessionId ? (
+          <button
+            className="btn-square btn-sm btn"
+            title="remove"
+            onClick={handleCloseClick}
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        </button>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        ) : null}
       </div>
       <figure className="px-10 pt-10">
         <Twemoji emoji={imgUrl} />

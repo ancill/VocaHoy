@@ -91,7 +91,7 @@ model Card {
     audioUrl          String
     imgUrl            String
     interval          Int              @default(1)
-    nextReview        DateTime         @default(now()) @db.Date
+    nextReview        DateTime         @default(now())
     CardsCollection   CardsCollection? @relation(fields: [cardsCollectionId], references: [id])
     cardsCollectionId String?
     StudySession      StudySession?    @relation(fields: [studySessionId], references: [id])

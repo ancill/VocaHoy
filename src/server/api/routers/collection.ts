@@ -62,6 +62,13 @@ export const collectionRouter = createTRPCRouter({
         where: {
           id: input.id,
         },
+        include: {
+          cards: {
+            where: {
+              cardsCollectionId: input.id,
+            },
+          },
+        },
       });
     }),
 });

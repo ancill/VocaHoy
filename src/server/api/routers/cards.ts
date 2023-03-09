@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
+import { getToday } from "../../../utils/api";
 
 export const cardsRouter = createTRPCRouter({
   createCard: protectedProcedure
@@ -10,6 +11,7 @@ export const cardsRouter = createTRPCRouter({
         audioUrl: z.string(),
         imgUrl: z.string(),
         cardsCollectionId: z.string(),
+        nextReview: z.date(),
       })
     )
     .mutation(({ ctx, input }) => {
