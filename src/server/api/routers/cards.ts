@@ -11,13 +11,13 @@ export const cardsRouter = createTRPCRouter({
         audioUrl: z.string(),
         imgUrl: z.string(),
         cardsCollectionId: z.string(),
+        nextReview: z.date(),
       })
     )
     .mutation(({ ctx, input }) => {
       return ctx.prisma.card.create({
         data: {
           ...input,
-          nextReview: getToday(),
         },
       });
     }),

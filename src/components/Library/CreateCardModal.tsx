@@ -1,8 +1,7 @@
-import { useRouter } from "next/router";
 import React, { useState } from "react";
-import { api } from "../../utils/api";
+import { api, getToday } from "../../utils/api";
 import { Card } from "@prisma/client";
-import { NAVIGATION_ROUTES } from "../../constants/navigation";
+
 import Alert from "../Alert";
 
 type FormCollectionInput = Omit<
@@ -62,6 +61,7 @@ const CreateCardModal = ({
   const handleCreateCard = async () => {
     const createdCard = await mutateAsync({
       cardsCollectionId: cardCollectionId,
+      nextReview: getToday(),
       ...formData,
     });
     if (createdCard) {

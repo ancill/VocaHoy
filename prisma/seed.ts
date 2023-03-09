@@ -4,7 +4,7 @@ import { prisma } from "../src/server/db";
 const imgUrl = "http://localhost:8080/images/";
 const getImgUrl = (i: string) => `${imgUrl}${i}.png`;
 const mockData = (collectionId: string) =>
-  Array(200)
+  Array(50)
     .fill(null)
     .map((_, i) => {
       return {
@@ -51,13 +51,13 @@ async function main() {
     })
   );
 
-  const topCollections = await Promise.all(
-    mockCollections("✍️", 1, "TOP_5000").map(async (collection) => {
-      return await prisma.cardsCollection.create({
-        data: collection,
-      });
-    })
-  );
+  // const topCollections = await Promise.all(
+  //   mockCollections("✍️", 1, "TOP_5000").map(async (collection) => {
+  //     return await prisma.cardsCollection.create({
+  //       data: collection,
+  //     });
+  //   })
+  // );
 
   const cards = await Promise.all(
     devCollections.map(async (coll) => {

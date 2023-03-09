@@ -62,7 +62,7 @@ const CardStack = ({
       setSessionProgress({
         masteredCount: sessionProgress.masteredCount + 1,
         reviewCount: sessionProgress.reviewCount,
-        cardsCount: sessionProgress.cardsCount - 1,
+        cardsCount: sessionProgress.cardsCount,
         ...sessionCardUpdateData,
       });
       flashCardsCopy.shift();
